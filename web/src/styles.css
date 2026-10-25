@@ -160,6 +160,10 @@ button:disabled {
   padding: 0.85rem 0.75rem 1.5rem;
 }
 
+.workspace > .work.cheatsheet {
+  width: auto;
+}
+
 .cheatsheet h1 {
   margin: 0;
   font-size: calc(var(--card-scale) * 1.35rem);
@@ -847,6 +851,134 @@ button:disabled {
   padding: 0.75rem 0.85rem 0.35rem;
 }
 
+.detail-fill {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+}
+
+.detail-kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0;
+  min-width: 0;
+  font-size: 0.85rem;
+  font-weight: 650;
+}
+
+.detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.icon-button:disabled {
+  opacity: 0.4;
+}
+
+.detail-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+  overflow: auto;
+  padding: 0.15rem 0.85rem 1.1rem;
+  font-size: calc(var(--card-scale) * 0.95rem);
+  overflow-wrap: anywhere;
+  transition: font-size 200ms ease-out;
+}
+
+.detail-facts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.detail-body,
+.detail-note,
+.copy-title {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.detail-note,
+.copy-title {
+  margin-top: 0.12rem;
+}
+
+.detail-note {
+  color: var(--muted);
+}
+
+.copy-title {
+  font-weight: 650;
+}
+
+.detail-launch {
+  margin: 0.85rem 0 0.15rem;
+  min-height: 2.25rem;
+}
+
+.detail-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.85rem 0 0.65rem;
+}
+
+.detail-tab {
+  min-height: 2.25rem;
+  padding: 0.2rem 0.65rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--muted);
+}
+
+.detail-tab[aria-selected='true'] {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+.detail-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.detail-group + .detail-group {
+  margin-top: 0.9rem;
+}
+
+.copy-item {
+  position: relative;
+  min-width: 0;
+  padding: 0.4rem 0.5rem;
+  border-radius: 0.55rem;
+  user-select: none;
+}
+
+.copy-item:hover {
+  background: var(--bg);
+}
+
+.copy-item .tick {
+  position: absolute;
+  top: 0.3rem;
+  right: 0.35rem;
+  margin-left: 0;
+  background: var(--surface);
+}
+
+.detail-pad {
+  padding: 0.2rem 0.85rem 1rem;
+}
+
 .prompt-actions {
   display: flex;
   flex-wrap: wrap;
@@ -1012,6 +1144,7 @@ button:disabled {
 
 @media (prefers-reduced-motion: reduce) {
   .detail,
+  .detail-scroll,
   .stage-card,
   .cheatsheet h1 {
     transition: none;

@@ -11,6 +11,16 @@ const router = createRouter({
       component: CheatsheetView,
     },
     {
+      path: '/stages/:stageId',
+      name: 'stage',
+      component: CheatsheetView,
+    },
+    {
+      path: '/templates/:templateId',
+      name: 'template',
+      component: CheatsheetView,
+    },
+    {
       path: '/prompt/:stageId?',
       name: 'prompt',
       component: PromptBuilderView,
