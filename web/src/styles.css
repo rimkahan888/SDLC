@@ -979,6 +979,200 @@ button:disabled {
   padding: 0.2rem 0.85rem 1rem;
 }
 
+.detail-identity {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+a.icon-button {
+  text-decoration: none;
+  color: var(--text);
+}
+
+.template-file {
+  margin: 0 0.85rem 0.35rem;
+  min-width: 0;
+}
+
+.template-group + .template-group {
+  margin-top: 1rem;
+}
+
+.template-group-title {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0 0 0.35rem;
+  font-size: 0.95rem;
+  font-weight: 650;
+}
+
+.template-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.template-row {
+  position: relative;
+}
+
+.template-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+  min-width: 0;
+  min-height: 2.25rem;
+  padding: 0.4rem 0.5rem;
+  border-radius: 0.55rem;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.template-link:hover {
+  background: var(--bg);
+}
+
+.template-link .copy-title {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.template-row .tick {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.35rem;
+  margin-left: 0;
+  background: var(--surface);
+}
+
+.template-doc,
+.md-prose,
+.md-code {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.md-section + .md-section {
+  margin-top: 0.25rem;
+}
+
+.md-prose > :first-child {
+  margin-top: 0;
+}
+
+.md-prose h1,
+.md-prose h2,
+.md-prose h3,
+.md-prose h4 {
+  margin: 0.8rem 0 0.3rem;
+  font-weight: 650;
+  line-height: 1.3;
+}
+
+.md-prose h1 {
+  font-size: 1.2em;
+}
+
+.md-prose h2 {
+  font-size: 1.08em;
+}
+
+.md-prose h3,
+.md-prose h4 {
+  font-size: 1em;
+}
+
+.md-prose p,
+.md-prose ul,
+.md-prose ol,
+.md-prose pre,
+.md-prose blockquote {
+  margin: 0.35rem 0;
+}
+
+.md-prose ul,
+.md-prose ol {
+  padding-left: 1.15rem;
+}
+
+.md-prose li + li {
+  margin-top: 0.15rem;
+}
+
+.md-prose a {
+  color: var(--accent);
+}
+
+.md-prose code,
+.template-raw {
+  font-family: ui-monospace, monospace;
+}
+
+.md-prose code {
+  font-size: 0.88em;
+}
+
+.md-prose pre,
+.template-raw {
+  margin: 0.4rem 0;
+  padding: 0.65rem 0.75rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 0.55rem;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.md-code pre {
+  margin: 0;
+}
+
+.md-prose blockquote {
+  margin-left: 0;
+  padding-left: 0.75rem;
+  border-left: 2px solid var(--line);
+  color: var(--muted);
+}
+
+.md-prose hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 0.8rem 0;
+}
+
+.md-prose table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+
+.md-prose th,
+.md-prose td {
+  border: 1px solid var(--line);
+  padding: 0.25rem 0.4rem;
+  text-align: left;
+}
+
+.md-prose img {
+  max-width: 100%;
+  height: auto;
+}
+
+.template-raw {
+  margin: 0;
+}
+
 .prompt-actions {
   display: flex;
   flex-wrap: wrap;

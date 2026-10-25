@@ -16,6 +16,11 @@ const router = createRouter({
       component: CheatsheetView,
     },
     {
+      path: '/templates',
+      name: 'templates',
+      component: CheatsheetView,
+    },
+    {
       path: '/templates/:templateId',
       name: 'template',
       component: CheatsheetView,

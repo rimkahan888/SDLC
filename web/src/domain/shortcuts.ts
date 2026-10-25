@@ -1,4 +1,4 @@
-export type AppView = 'prompt' | 'cheatsheet'
+export type AppView = 'prompt' | 'cheatsheet' | 'template'
 
 export type ShortcutAction =
   | 'help'
@@ -8,6 +8,7 @@ export type ShortcutAction =
   | 'share'
   | 'reset'
   | 'toggle-panel'
+  | 'toggle-markdown'
   | 'option-prev'
   | 'option-next'
   | 'option-first'
@@ -21,6 +22,11 @@ export type ShortcutAction =
   | 'panel-open'
   | 'panel-prev'
   | 'panel-next'
+  | 'index-prev'
+  | 'index-next'
+  | 'index-first'
+  | 'index-last'
+  | 'index-open'
   | `stage-${number}`
 
 export type ShortcutEntry = {
@@ -43,6 +49,18 @@ export const promptShortcuts: readonly ShortcutEntry[] = [
   { keys: 'P', action: 'Toggle the prompt panel' },
 ]
 
+export const templateShortcuts: readonly ShortcutEntry[] = [
+  { keys: '?', action: 'Toggle the shortcut list' },
+  { keys: 'Esc', action: 'Back, or close the template index' },
+  { keys: 'C', action: 'Copy the template' },
+  { keys: 'D', action: 'Download the template' },
+  { keys: 'M', action: 'Toggle rendered or raw markdown' },
+  { keys: 'j, k', action: 'Move in the template index' },
+  { keys: 'Enter', action: 'Open the focused template' },
+  { keys: 'Home / End', action: 'First or last template' },
+  { keys: 'Double-click', action: 'Copy a section or a code block' },
+]
+
 export const cheatsheetShortcuts: readonly ShortcutEntry[] = [
   { keys: '?', action: 'Toggle the shortcut list' },
   { keys: 'Esc', action: 'Close the shortcut list, or the stage detail' },
@@ -57,11 +75,15 @@ export const cheatsheetShortcuts: readonly ShortcutEntry[] = [
 ]
 
 export function shortcutsFor(view: AppView): readonly ShortcutEntry[] {
-  return view === 'prompt' ? promptShortcuts : cheatsheetShortcuts
+  if (view === 'prompt') return promptShortcuts
+  if (view === 'template') return templateShortcuts
+  return cheatsheetShortcuts
 }
 
 export function viewForPath(path: string): AppView {
-  return path.startsWith('/prompt') ? 'prompt' : 'cheatsheet'
+  if (path.startsWith('/prompt')) return 'prompt'
+  if (path.startsWith('/templates')) return 'template'
+  return 'cheatsheet'
 }
 
 export function isTypingTarget(target: EventTarget | null): boolean {
@@ -69,6 +91,18 @@ export function isTypingTarget(target: EventTarget | null): boolean {
   const tag = target.tagName
   if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return true
   return target.isContentEditable
+}
+
+function matchTemplate(key: string): ShortcutAction | null {
+  if (key === 'c' || key === 'C') return 'copy'
+  if (key === 'd' || key === 'D') return 'download'
+  if (key === 'm' || key === 'M') return 'toggle-markdown'
+  if (key === 'j' || key === 'J') return 'index-next'
+  if (key === 'k' || key === 'K') return 'index-prev'
+  if (key === 'Home') return 'index-first'
+  if (key === 'End') return 'index-last'
+  if (key === 'Enter') return 'index-open'
+  return null
 }
 
 function matchCheatsheet(key: string): ShortcutAction | null {
@@ -89,6 +123,7 @@ export function matchShortcut(key: string, view: AppView, shiftKey = false): Sho
   if (key === '?' || (shiftKey && key === '/')) return 'help'
   if (key === 'Escape') return 'close'
   if (view === 'cheatsheet') return matchCheatsheet(key)
+  if (view === 'template') return matchTemplate(key)
 
   if (/^[1-6]$/.test(key)) return `stage-${Number(key)}`
   if (key === 'ArrowLeft' || key === 'ArrowUp') return 'option-prev'

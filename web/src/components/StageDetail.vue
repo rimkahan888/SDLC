@@ -58,6 +58,9 @@ const shown = computed(() => (tabs.value.includes(props.tab) ? props.tab : (tabs
         <button type="button" class="icon-button" aria-label="Next stage" :disabled="!canNext" @click="emit('next')">
           <Icon name="next" />
         </button>
+        <RouterLink class="icon-button" :to="{ name: 'templates', query: { stage: stage.id } }" aria-label="All templates">
+          <Icon name="list" />
+        </RouterLink>
         <button type="button" class="icon-button" aria-label="Close stage detail" @click="emit('close')">
           <Icon name="close" />
         </button>
