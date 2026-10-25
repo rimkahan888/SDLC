@@ -2,7 +2,9 @@
 
 A cheatsheet and a prompt builder for an AI-native software lifecycle. The page walks six stages, plan through maintain, and shows the document each stage needs. The prompt builder asks for a choice at each stage, then assembles one prompt to paste into Cursor.
 
-The repository is built with the same lifecycle it teaches. This change is Plan and Design: the intent, the standing rules, and the specs. The Vue app and the C# API wait until the plan is accepted. The API targets .NET 10 (`net10.0`). .NET 8 support ends 10 November 2026.
+The repository is built with the same lifecycle it teaches. The plan and the design are in the docs below. This scaffold is the Vue app in `web/` and the ASP.NET Core minimal API in `api/`. Both target the stack in [AGENTS.md](AGENTS.md). The API uses `net10.0`. .NET 8 support ends 10 November 2026.
+
+Stage content, the prompt builder, and the style picker are later changes.
 
 ## The six stages
 
@@ -32,4 +34,48 @@ The repository is built with the same lifecycle it teaches. This change is Plan 
 - [docs/references.md](docs/references.md) collects official documentation.
 - [templates/](templates/intent.md) holds reusable blanks.
 
-Nothing runs yet. How to start the app arrives with the scaffold.
+## Run
+
+The page and the API are two processes. Node.js must be `^22.18.0` or `>=24.12.0` ([Vue quick start](https://vuejs.org/guide/quick-start.html), [Playwright](https://playwright.dev/docs/intro)). The API needs the [.NET 10 SDK](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/overview?view=aspnetcore-10.0).
+
+### Web
+
+```bash
+cd web
+npm install
+npm run dev
+```
+
+Open http://localhost:5173/. The router uses [hash history](https://router.vuejs.org/guide/essentials/history-mode.html), so the placeholder is at http://localhost:5173/#/. In dev, Vite proxies `/api` to http://localhost:5080.
+
+### API
+
+```bash
+dotnet run --project api
+```
+
+The process listens on http://localhost:5080. [Health checks](https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-10.0) answer at http://localhost:5080/health.
+
+### Tests
+
+```bash
+dotnet test
+```
+
+```bash
+cd web
+npm test
+npx playwright install
+npx playwright test
+```
+
+`npm test` is Vitest. Playwright checks the placeholder at 540px and at 1440px.
+
+### Production build
+
+```bash
+cd web
+npm run build
+```
+
+That type-checks, then runs `vite build --base=/SDLC/` so a project site is served from `/SDLC/` ([Vite `base`](https://vite.dev/guide/build.html)). Preview the result with `npm run preview`, which passes the same `--base=/SDLC/`, at http://localhost:4173/SDLC/.
