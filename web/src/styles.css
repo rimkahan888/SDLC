@@ -44,7 +44,8 @@ a {
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
-summary:focus-visible {
+summary:focus-visible,
+.stage-card:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
@@ -153,46 +154,239 @@ button:disabled {
 .cheatsheet {
   flex: 1;
   min-height: 0;
+  min-width: 0;
   overflow: auto;
-  width: min(40rem, 100%);
-  padding: 1.5rem 1rem 2rem;
+  width: 100%;
+  padding: 0.85rem 0.75rem 1.5rem;
 }
 
 .cheatsheet h1 {
-  margin: 0 0 1rem;
-  font-size: 1.75rem;
+  margin: 0;
+  font-size: calc(var(--card-scale) * 1.35rem);
   font-weight: 650;
   line-height: 1.2;
+  transition: font-size 200ms ease-out;
 }
 
-.card {
-  margin: 0;
-  padding: 1rem 1.1rem;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 0.75rem;
-}
-
-.card p {
-  margin: 0;
-}
-
-.card p + p {
-  margin-top: 0.5rem;
+.cheatsheet-intro {
+  margin: 0.3rem 0 0.85rem;
+  max-width: 40rem;
   color: var(--muted);
 }
 
-.stages {
-  margin: 1rem 0 0;
-  padding-left: 1.25rem;
+.loop {
+  margin: 0 0 0.9rem;
+  min-width: 0;
 }
 
-.stages li + li {
-  margin-top: 0.75rem;
+.loop-track {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.15rem;
+  min-width: 0;
 }
 
-.stage-name {
+.loop-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.loop-step {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 2.25rem;
+  max-width: 100%;
+  padding: 0.15rem 0.55rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.loop-step[aria-current='true'] {
+  border-color: var(--accent);
+}
+
+.loop-step span:last-child {
+  overflow-wrap: anywhere;
+}
+
+.loop-join {
+  display: inline-flex;
+  align-items: center;
+  color: var(--muted);
+}
+
+.stage-board {
+  container-type: inline-size;
+  container-name: stages;
+  min-width: 0;
+}
+
+.stage-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.75rem;
+  margin: 0;
+  padding: 3px;
+  list-style: none;
+}
+
+.stage-grid > li {
+  display: flex;
+  min-width: 0;
+}
+
+.stage-card {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 0.55em;
+  width: 100%;
+  min-width: 0;
+  padding: calc(var(--card-scale) * 0.85rem) calc(var(--card-scale) * 0.95rem);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  color: var(--text);
+  font-size: calc(var(--card-scale) * 0.95rem);
+  user-select: none;
+  scroll-margin: 0.75rem;
+  transition:
+    padding 200ms ease-out,
+    font-size 200ms ease-out;
+}
+
+.stage-card[data-selected='true'] {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.stage-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.55rem;
+  min-width: 0;
+}
+
+.stage-order {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 1.7em;
+  height: 1.7em;
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--accent);
+  font-size: 0.85em;
+  font-variant-numeric: tabular-nums;
   font-weight: 650;
+}
+
+.stage-card h2 {
+  flex: 1 1 6rem;
+  min-width: 0;
+  margin: 0;
+  font-size: 1.15em;
+  font-weight: 650;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.prompt-link {
+  flex: none;
+  min-height: 2.25rem;
+}
+
+.stage-card .stage-line {
+  margin: 0;
+}
+
+.meta-label {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.72em;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.meta-value {
+  margin: 0.12em 0 0;
+  overflow-wrap: anywhere;
+}
+
+.doc-list {
+  margin: 0.15em 0 0;
+  padding-left: 1.1em;
+}
+
+.doc-list li {
+  overflow-wrap: anywhere;
+}
+
+.chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.25em 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chip {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3rem;
+  max-width: 100%;
+  padding: 0.12em 0.5em;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  overflow-wrap: anywhere;
+}
+
+.chip-meta {
+  color: var(--muted);
+  font-size: 0.85em;
+}
+
+.stage-card .tick {
+  margin-left: 0;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@container stages (min-width: 680px) {
+  .stage-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@container stages (min-width: 1040px) {
+  .stage-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 .stage-line {
@@ -785,6 +979,10 @@ button:disabled {
 }
 
 @media (min-width: 960px) {
+  .cheatsheet {
+    padding: 1.1rem 1.25rem 1.5rem;
+  }
+
   .workspace {
     flex-direction: row;
   }
@@ -813,7 +1011,9 @@ button:disabled {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .detail {
+  .detail,
+  .stage-card,
+  .cheatsheet h1 {
     transition: none;
   }
 

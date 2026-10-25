@@ -1,13 +1,13 @@
 import { expect, test } from '@playwright/test'
 
-test('placeholder renders without horizontal scrolling', async ({ page }) => {
+test('cheatsheet renders without horizontal scrolling', async ({ page }) => {
   await page.goto('/')
 
-  await expect(page.getByRole('heading', { level: 1, name: 'SDLC' })).toBeVisible()
-  await expect(page.getByText('Six stages, read from the content files.')).toBeVisible()
+  await expect(page.getByRole('heading', { level: 1, name: 'Cheatsheet' })).toBeVisible()
+  await expect(page.getByText('Plan through Maintain, then back to Plan.')).toBeVisible()
 
   const names = ['Plan', 'Design', 'Build', 'Test', 'Deploy', 'Maintain']
-  const items = page.getByRole('listitem')
+  const items = page.locator('ol.stage-grid > li')
   await expect(items).toHaveCount(6)
   for (const [index, name] of names.entries()) {
     await expect(items.nth(index)).toContainText(name)
@@ -24,11 +24,12 @@ test('placeholder renders without horizontal scrolling', async ({ page }) => {
   )
   expect(scrollsHorizontally).toBe(false)
 
-  await page.getByRole('link', { name: 'Prompt' }).click()
+  const views = page.getByRole('navigation', { name: 'Views' })
+  await views.getByRole('link', { name: 'Prompt' }).click()
   await expect(page.getByRole('heading', { level: 1, name: 'Prompt' })).toBeVisible()
-  await expect(page.getByRole('link', { name: 'Prompt' })).toHaveAttribute('aria-current', 'page')
+  await expect(views.getByRole('link', { name: 'Prompt' })).toHaveAttribute('aria-current', 'page')
 
-  await page.getByRole('link', { name: 'Cheatsheet' }).click()
-  await expect(page.getByRole('heading', { level: 1, name: 'SDLC' })).toBeVisible()
-  await expect(page.getByRole('link', { name: 'Cheatsheet' })).toHaveAttribute('aria-current', 'page')
+  await views.getByRole('link', { name: 'Cheatsheet' }).click()
+  await expect(page.getByRole('heading', { level: 1, name: 'Cheatsheet' })).toBeVisible()
+  await expect(views.getByRole('link', { name: 'Cheatsheet' })).toHaveAttribute('aria-current', 'page')
 })

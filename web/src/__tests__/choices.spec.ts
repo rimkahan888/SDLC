@@ -92,7 +92,9 @@ describe('sliders and shortcuts', () => {
     expect(matchShortcut('s', 'prompt')).toBe('share')
     expect(matchShortcut('r', 'prompt')).toBe('reset')
     expect(matchShortcut('p', 'prompt')).toBe('toggle-panel')
-    expect(matchShortcut('1', 'cheatsheet')).toBeNull()
+    expect(matchShortcut('j', 'prompt')).toBeNull()
+    expect(matchShortcut('k', 'prompt')).toBeNull()
+    expect(matchShortcut('1', 'cheatsheet')).toBe('stage-1')
     expect(promptShortcuts.map((entry) => entry.keys)).toContain('1–6')
   })
 

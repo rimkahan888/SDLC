@@ -52,6 +52,9 @@ export type Stage = {
   order: number
   name: string
   oneLiner: string
+  goal: string
+  keyArtifact: string
+  templates: string[]
   optionGroups: OptionGroup[]
 }
 

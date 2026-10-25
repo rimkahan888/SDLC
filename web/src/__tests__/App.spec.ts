@@ -3,14 +3,14 @@ import { beforeAll, describe, expect, it } from 'vitest'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import App from '../App.vue'
 import { contentState, loadContent, resetContentForTests } from '../content/catalog'
-import PlaceholderView from '../views/PlaceholderView.vue'
+import CheatsheetView from '../views/CheatsheetView.vue'
 import PromptBuilderView from '../views/PromptBuilderView.vue'
 
 function router() {
   return createRouter({
     history: createWebHashHistory(),
     routes: [
-      { path: '/', name: 'cheatsheet', component: PlaceholderView },
+      { path: '/', name: 'cheatsheet', component: CheatsheetView },
       { path: '/prompt/:stageId?', name: 'prompt', component: PromptBuilderView },
     ],
   })
@@ -32,7 +32,7 @@ describe('App', () => {
     await history.isReady()
     await flushPromises()
 
-    expect(wrapper.get('h1').text()).toBe('SDLC')
+    expect(wrapper.get('h1').text()).toBe('Cheatsheet')
     expect(contentState.stages.map((stage) => stage.id)).toEqual([
       'plan',
       'design',
@@ -42,11 +42,13 @@ describe('App', () => {
       'maintain',
     ])
 
-    const items = wrapper.findAll('ol.stages li')
-    expect(items).toHaveLength(6)
+    const cards = wrapper.findAll('.stage-card')
+    expect(cards).toHaveLength(6)
     contentState.stages.forEach((stage, index) => {
-      expect(items[index]?.text()).toContain(stage.name)
-      expect(items[index]?.text()).toContain(stage.oneLiner)
+      expect(cards[index]?.text()).toContain(stage.name)
+      expect(cards[index]?.text()).toContain(stage.oneLiner)
+      expect(cards[index]?.text()).toContain(stage.goal)
+      expect(cards[index]?.text()).toContain(stage.keyArtifact)
     })
   })
 

@@ -12,6 +12,7 @@ defineProps<{
     | 'check'
     | 'back'
     | 'next'
+    | 'loop'
 }>()
 </script>
 
@@ -60,6 +61,10 @@ defineProps<{
     </template>
     <template v-else-if="name === 'back'">
       <path d="M14.5 6.5 9 12l5.5 5.5" />
+    </template>
+    <template v-else-if="name === 'loop'">
+      <path d="M16.5 8.5a5 5 0 1 0 1.2 3.2" />
+      <path d="M16.2 4.8v4.2h-4" />
     </template>
     <template v-else>
       <path d="M9.5 6.5 15 12l-5.5 5.5" />

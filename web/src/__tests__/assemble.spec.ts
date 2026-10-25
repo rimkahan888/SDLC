@@ -22,6 +22,9 @@ function fixtureStages(): Stage[] {
       order: 1,
       name: 'Plan',
       oneLiner: 'Plan the change.',
+      goal: 'Give the next agent enough context.',
+      keyArtifact: 'intent.md',
+      templates: ['intent'],
       optionGroups: [
         {
           id: 'change-type',
@@ -71,6 +74,9 @@ function fixtureStages(): Stage[] {
       order: 2,
       name: 'Design',
       oneLiner: 'Write the specs.',
+      goal: 'Leave rules a later agent can follow.',
+      keyArtifact: 'AGENTS.md and docs/',
+      templates: ['agents'],
       optionGroups: [
         {
           id: 'visual-style',
@@ -103,6 +109,9 @@ function fixtureStages(): Stage[] {
       order: 4,
       name: 'Test',
       oneLiner: 'Define done as checks.',
+      goal: 'Name the checks before the work is called finished.',
+      keyArtifact: 'definition of done',
+      templates: ['definition-of-done'],
       optionGroups: [
         {
           id: 'checks',

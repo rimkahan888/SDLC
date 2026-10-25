@@ -130,10 +130,12 @@ export function readStages(value: unknown): { stages: Stage[]; templateIds: stri
     }
     if (!Array.isArray(record.optionGroups)) throw new Error(`Stage '${id}' is missing option groups.`)
     if (!Array.isArray(record.templates)) throw new Error(`Stage '${id}' is missing templates.`)
+    const templates: string[] = []
     for (const templateId of record.templates) {
       if (typeof templateId !== 'string' || templateId.trim() === '') {
         throw new Error(`Stage '${id}' has an empty template id.`)
       }
+      templates.push(templateId)
       if (!seen.has(templateId)) {
         seen.add(templateId)
         templateIds.push(templateId)
@@ -144,6 +146,9 @@ export function readStages(value: unknown): { stages: Stage[]; templateIds: stri
       order,
       name: expectString(record.name, `Stage '${id}' is missing name.`),
       oneLiner: expectString(record.oneLiner, `Stage '${id}' is missing oneLiner.`),
+      goal: expectString(record.goal, `Stage '${id}' is missing goal.`),
+      keyArtifact: expectString(record.keyArtifact, `Stage '${id}' is missing keyArtifact.`),
+      templates,
       optionGroups: record.optionGroups.map((group) => readGroup(group, id)),
     }
     return stage
