@@ -1,0 +1,19 @@
+{
+  "id": "bohemian",
+  "name": "Bohemian",
+  "description": "Earth, ochre, and a jewel green, like cloth and clay.",
+  "bestFor": "Lifestyle pages that should feel collected, not corporate.",
+  "tokens": {
+    "background": "linear-gradient(160deg, #6b3a2a 0%, #c4844a 48%, #1f6f5b 100%)",
+    "surface": "#f3e6d0",
+    "text": "#3b2416",
+    "muted": "#7a4e32",
+    "accent": "#1f6f5b",
+    "border": "2px solid #c47a4a",
+    "radius": "16px",
+    "shadow": "0 6px 0 rgba(107, 62, 46, 0.28)",
+    "font": "Georgia, 'Palatino Linotype', serif",
+    "backdrop": "none"
+  },
+  "promptFragment": "Visual style: Bohemian. Use warm clay, ochre, and a deep jewel green, a soft serif, and a medium radius. Borders are earth-toned and the shadow is a short stained offset. Avoid neon, pure gray chrome, and icy gradients. Keep text readable: meet WCAG 2.2 AA contrast (4.5:1) against the surface the text actually sits on. https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+}

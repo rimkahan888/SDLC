@@ -34,7 +34,7 @@ public class ContentValidatorTests
     public void RealContent_MatchesTheStageContract()
     {
         var root = FindRepoRoot();
-        Assert.False(Directory.Exists(Path.Combine(root, "content", "styles")));
+        Assert.True(Directory.Exists(Path.Combine(root, "content", "styles")));
 
         using var plan = ReadStage(root, "plan");
         using var design = ReadStage(root, "design");
@@ -176,6 +176,112 @@ public class ContentValidatorTests
         });
     }
 
+    private static readonly string[] CatalogIds =
+    [
+        "minimalism",
+        "maximalism",
+        "futuristic",
+        "vector-art",
+        "collage-art",
+        "retro",
+        "cyberpunk",
+        "pop-art",
+        "glassmorphism",
+        "clay-style",
+        "pixel-art",
+        "editorial",
+        "y2k",
+        "swiss-design",
+        "surreal",
+        "bohemian",
+        "victorian",
+        "graffiti",
+        "aurora",
+        "handwritten",
+    ];
+
+    private static readonly string[] TokenKeys =
+    [
+        "background",
+        "surface",
+        "text",
+        "muted",
+        "accent",
+        "border",
+        "radius",
+        "shadow",
+        "font",
+        "backdrop",
+    ];
+
+    [Fact]
+    public void StyleCatalog_HasTheTwentyStyles()
+    {
+        var root = FindRepoRoot();
+        var orderPath = Path.Combine(root, "content", "styles", "order.json");
+        var order = JsonNode.Parse(File.ReadAllText(orderPath))!.AsArray()
+            .Select(node => node!.GetValue<string>())
+            .ToArray();
+        Assert.Equal(CatalogIds, order);
+
+        foreach (var id in CatalogIds)
+        {
+            using var document = JsonDocument.Parse(File.ReadAllText(Path.Combine(root, "content", "styles", id + ".json")));
+            var style = document.RootElement;
+            Assert.Equal(id, style.GetProperty("id").GetString());
+            Assert.False(string.IsNullOrWhiteSpace(style.GetProperty("name").GetString()));
+            Assert.False(string.IsNullOrWhiteSpace(style.GetProperty("description").GetString()));
+            Assert.False(string.IsNullOrWhiteSpace(style.GetProperty("bestFor").GetString()));
+            Assert.False(string.IsNullOrWhiteSpace(style.GetProperty("promptFragment").GetString()));
+            var tokens = style.GetProperty("tokens");
+            Assert.Equal(TokenKeys.Length, tokens.EnumerateObject().Count());
+            foreach (var key in TokenKeys)
+            {
+                Assert.False(string.IsNullOrWhiteSpace(tokens.GetProperty(key).GetString()));
+            }
+
+            Assert.DoesNotContain("url(", tokens.GetProperty("font").GetString(), StringComparison.Ordinal);
+        }
+
+        using var glass = JsonDocument.Parse(File.ReadAllText(Path.Combine(root, "content", "styles", "glassmorphism.json")));
+        Assert.Equal(
+            "Visual style: Glassmorphism. Use translucent panels over a saturated background, with backdrop-filter blur, a hairline light border, and a soft shadow. Keep text readable: meet WCAG 2.2 AA contrast (4.5:1) against the surface the text actually sits on. https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+            glass.RootElement.GetProperty("promptFragment").GetString());
+    }
+
+    [Fact]
+    public void MissingRequiredStyle_Fails()
+    {
+        WithRealTree(root =>
+        {
+            File.Delete(Path.Combine(root, "content", "styles", "aurora.json"));
+            AssertInvalid(root, "Required style id 'aurora' is missing.");
+        });
+    }
+
+    [Fact]
+    public void MissingStyleCatalog_Fails()
+    {
+        WithRealTree(root =>
+        {
+            Directory.Delete(Path.Combine(root, "content", "styles"), true);
+            AssertInvalid(root, "Required style id 'minimalism' is missing.");
+        });
+    }
+
+    [Fact]
+    public void StyleTokenExtraKey_Fails()
+    {
+        WithRealTree(root =>
+        {
+            Mutate(root, "content/styles/glassmorphism.json", style =>
+            {
+                style["tokens"]!.AsObject()["sparkle"] = "yes";
+            });
+            AssertInvalid(root, "Style 'glassmorphism' token 'sparkle' is not a token key.");
+        });
+    }
+
     [Fact]
     public void PromptShellMissingStagesPlaceholder_Fails()
     {
@@ -254,6 +360,22 @@ public class ContentValidatorTests
             Mutate(root, "content/templates/intent.json", template => template["file"] = "../secrets.md");
             AssertInvalid(root, "escapes templates/.");
         });
+    }
+
+    private static void WithRealTree(Action<string> act)
+    {
+        var repo = FindRepoRoot();
+        var root = Directory.CreateTempSubdirectory("sdlc-styles-").FullName;
+        try
+        {
+            CopyDirectory(Path.Combine(repo, "content"), Path.Combine(root, "content"));
+            CopyDirectory(Path.Combine(repo, "templates"), Path.Combine(root, "templates"));
+            act(root);
+        }
+        finally
+        {
+            Directory.Delete(root, true);
+        }
     }
 
     private static void WithValidTree(Action<string> act)

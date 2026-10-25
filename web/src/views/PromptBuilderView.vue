@@ -3,6 +3,7 @@ import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import OptionGroup from '@/components/OptionGroup.vue'
 import PromptActions from '@/components/PromptActions.vue'
+import StyleMock from '@/components/StyleMock.vue'
 import Icon from '@/components/Icon.vue'
 import { stageById, stages } from '@/content/catalog'
 import { PROMPT_DOWNLOAD_NAME, templateDownloadName } from '@/domain/copyText'
@@ -19,7 +20,7 @@ import {
 } from '@/domain/choices'
 import { downloadMarkdown } from '@/domain/download'
 import { cardScaleRange, panelRatioRange } from '@/domain/preferences'
-import type { OptionGroup as OptionGroupModel, Stage, TemplateFile } from '@/domain/types'
+import type { OptionGroup as OptionGroupModel, PromptOption, Stage, TemplateFile } from '@/domain/types'
 import { showError, showToast, writeClipboard } from '@/feedback'
 import { useLayout } from '@/composables/useLayout'
 import { usePromptChoices } from '@/composables/usePromptChoices'
@@ -33,6 +34,8 @@ const { choices, assembled, replaceChoices, resetStoredChoices } = usePromptChoi
 const panelOpen = ref(true)
 const tick = ref<string | null>(null)
 const flashedStage = ref<string | null>(null)
+const hoveredStyleId = ref<string | null>(null)
+const focusedStyleId = ref<string | null>(null)
 let tickTimer = 0
 let flashTimer = 0
 
@@ -79,9 +82,27 @@ async function go(stage: Stage | undefined): Promise<void> {
   await router.push({ name: 'prompt', params: { stageId: stage.id }, query: route.query })
 }
 
+const stylePreview = computed((): PromptOption | null => {
+  const stage = current.value
+  if (!stage) return null
+  const group = stage.optionGroups.find((item) => item.presentation === 'visual')
+  if (!group) return null
+  const selected = selectedIds(stage, group)
+  const id = hoveredStyleId.value ?? focusedStyleId.value ?? selected[0] ?? null
+  if (!id) return null
+  return group.options.find((option) => option.id === id && option.preview) ?? null
+})
+
 watch(stageId, (id) => {
+  hoveredStyleId.value = null
+  focusedStyleId.value = null
   if (stageById(id)) flashStage(id)
 })
+
+function onInspect(optionId: string | null, source: 'hover' | 'focus'): void {
+  if (source === 'hover') hoveredStyleId.value = optionId
+  else focusedStyleId.value = optionId
+}
 
 function onToggle(group: OptionGroupModel, optionId: string, revert: boolean): void {
   const stage = current.value
@@ -261,6 +282,7 @@ onBeforeUnmount(() => {
           :selected-ids="selectedIds(current, group)"
           @toggle="(optionId, revert) => onToggle(group, optionId, revert)"
           @skip="onSkip(group)"
+          @inspect="onInspect"
         />
         <div class="pager">
           <button type="button" class="text-button pager-button" :disabled="!previous" @click="go(previous)">
@@ -292,6 +314,13 @@ onBeforeUnmount(() => {
           @toggle-panel="togglePanel"
         />
       </div>
+      <section v-if="stylePreview?.preview" class="style-open" aria-label="Style preview">
+        <StyleMock large :name="stylePreview.label" :tokens="stylePreview.preview.tokens" />
+        <div class="style-open-copy">
+          <p class="style-open-kicker">Preview</p>
+          <p class="style-open-fragment">{{ stylePreview.promptFragment }}</p>
+        </div>
+      </section>
       <pre class="prompt-text" aria-label="Assembled prompt">{{ assembled.text }}</pre>
       <div v-if="assembled.starterFiles.length > 0" class="starters">
         <h3>Starter files</h3>

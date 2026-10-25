@@ -26,6 +26,7 @@ export const promptShortcuts: readonly ShortcutEntry[] = [
   { keys: '1–6', action: 'Open that stage' },
   { keys: 'Arrow keys', action: 'Move between options in the focused group' },
   { keys: 'Enter or Space', action: 'Select the focused option' },
+  { keys: 'Double-click', action: 'Copy the style description' },
   { keys: 'Home / End', action: 'First or last option in the group' },
   { keys: 'C', action: 'Copy the prompt' },
   { keys: 'D', action: 'Download the prompt' },

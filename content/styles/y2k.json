@@ -1,0 +1,19 @@
+{
+  "id": "y2k",
+  "name": "Y2K",
+  "description": "Chrome bubbles, hot pink, and a glossy late-90s gradient.",
+  "bestFor": "Playful marketing that should feel like a millennium desktop toy.",
+  "tokens": {
+    "background": "linear-gradient(180deg, #b8f3ff 0%, #ff8ad4 52%, #7c5cff 100%)",
+    "surface": "linear-gradient(180deg, #ffffff 0%, #d7ecff 100%)",
+    "text": "#24124d",
+    "muted": "#6a3d9a",
+    "accent": "#c40068",
+    "border": "2px solid #ffffff",
+    "radius": "22px",
+    "shadow": "0 6px 0 #6a4cff",
+    "font": "'Trebuchet MS', Verdana, sans-serif",
+    "backdrop": "none"
+  },
+  "promptFragment": "Visual style: Y2K. Use glossy aqua-to-pink gradients, bubble radii, a white highlight edge, and a chunky purple offset under each panel. Type is a rounded sans. Avoid flat print, square corners, and a quiet single ink. Keep text readable: meet WCAG 2.2 AA contrast (4.5:1) against the surface the text actually sits on. https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+}

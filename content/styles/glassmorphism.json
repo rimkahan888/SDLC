@@ -1,0 +1,19 @@
+{
+  "id": "glassmorphism",
+  "name": "Glassmorphism",
+  "description": "Translucent panels over a saturated background, with blur, a hairline light border, and a soft shadow.",
+  "bestFor": "Dashboards, media, and overlays where the background holds the color and the panel stays out of the way.",
+  "tokens": {
+    "background": "linear-gradient(145deg, #5b4bff 0%, #d946ef 48%, #22d3ee 100%)",
+    "surface": "rgba(12, 10, 32, 0.62)",
+    "text": "#f7f8fb",
+    "muted": "rgba(247, 248, 251, 0.78)",
+    "accent": "#ffffff",
+    "border": "1px solid rgba(255, 255, 255, 0.38)",
+    "radius": "20px",
+    "shadow": "0 10px 30px rgba(18, 16, 48, 0.28)",
+    "font": "system-ui, sans-serif",
+    "backdrop": "blur(18px)"
+  },
+  "promptFragment": "Visual style: Glassmorphism. Use translucent panels over a saturated background, with backdrop-filter blur, a hairline light border, and a soft shadow. Keep text readable: meet WCAG 2.2 AA contrast (4.5:1) against the surface the text actually sits on. https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "aurora",
+  "name": "Aurora",
+  "description": "A night sky washing green into violet, under a frosted panel.",
+  "bestFor": "Heroes and media where the sky holds the color and the panel stays quiet.",
+  "tokens": {
+    "background": "linear-gradient(160deg, #07111c 0%, #0e3b3a 28%, #1f8a62 48%, #3a3db5 72%, #b44bff 100%)",
+    "surface": "rgba(7, 16, 32, 0.55)",
+    "text": "#f4fbff",
+    "muted": "#b7f7e2",
+    "accent": "#7dffe1",
+    "border": "1px solid rgba(180, 255, 230, 0.5)",
+    "radius": "20px",
+    "shadow": "0 12px 28px rgba(20, 8, 40, 0.4)",
+    "font": "system-ui, sans-serif",
+    "backdrop": "blur(16px)"
+  },
+  "promptFragment": "Visual style: Aurora. Paint the ground as a northern-lights gradient, green into teal into violet, and float a dark frosted panel with a mint edge and a soft blur. Type stays a plain sans in near-white. Avoid flat gray, hard comic outlines, and a second busy pattern on the panel. Keep text readable: meet WCAG 2.2 AA contrast (4.5:1) against the surface the text actually sits on. https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+}

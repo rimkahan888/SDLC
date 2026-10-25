@@ -1,0 +1,19 @@
+{
+  "id": "pop-art",
+  "name": "Pop Art",
+  "description": "Primary yellow, Ben-Day dots, and a comic-book outline.",
+  "bestFor": "Campaigns and empty states that should hit like a printed comic.",
+  "tokens": {
+    "background": "radial-gradient(circle, #111111 1.2px, transparent 1.4px) 0 0 / 8px 8px, #ffe500",
+    "surface": "#ffe500",
+    "text": "#141414",
+    "muted": "#3a3a3a",
+    "accent": "#c4002a",
+    "border": "3px solid #111111",
+    "radius": "0px",
+    "shadow": "5px 5px 0 #111111",
+    "font": "Impact, 'Arial Black', sans-serif",
+    "backdrop": "none"
+  },
+  "promptFragment": "Visual style: Pop Art. Use flat primary colors, a halftone dot field, thick black outlines, and a heavy condensed face. Shadows are hard offsets, not blur. Keep shapes graphic and flat. Avoid muted gray, thin type, gradients, and realistic depth. Keep text readable: meet WCAG 2.2 AA contrast (4.5:1) against the surface the text actually sits on. https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+}

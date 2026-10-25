@@ -1,0 +1,19 @@
+{
+  "id": "minimalism",
+  "name": "Minimalism",
+  "description": "Quiet surfaces, one typeface, and almost no decoration.",
+  "bestFor": "Tools and reading layouts where the content should be the only thing you notice.",
+  "tokens": {
+    "background": "#ecece8",
+    "surface": "#ffffff",
+    "text": "#1a1a1a",
+    "muted": "#5c5c5c",
+    "accent": "#1a1a1a",
+    "border": "1px solid #e4e4e0",
+    "radius": "2px",
+    "shadow": "none",
+    "font": "system-ui, sans-serif",
+    "backdrop": "none"
+  },
+  "promptFragment": "Visual style: Minimalism. Use a near-white surface, one sans-serif family, generous whitespace, and a 2px corner radius. Limit the palette to ink, a quiet gray, and one solid button. Avoid gradients, shadows, textures, and extra colors. Keep text readable: meet WCAG 2.2 AA contrast (4.5:1) against the surface the text actually sits on. https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+}

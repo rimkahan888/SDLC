@@ -1,9 +1,38 @@
+export type StyleTokens = {
+  background: string
+  surface: string
+  text: string
+  muted: string
+  accent: string
+  border: string
+  radius: string
+  shadow: string
+  font: string
+  backdrop: string
+}
+
+export type StylePreview = {
+  styleId: string
+  bestFor: string
+  tokens: StyleTokens
+}
+
+export type Style = {
+  id: string
+  name: string
+  description: string
+  bestFor: string
+  tokens: StyleTokens
+  promptFragment: string
+}
+
 export type PromptOption = {
   id: string
   label: string
   detail: string
   promptFragment: string
   starterFiles?: string[]
+  preview?: StylePreview
 }
 
 export type OptionGroup = {

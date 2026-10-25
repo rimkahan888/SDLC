@@ -1,0 +1,19 @@
+{
+  "id": "collage-art",
+  "name": "Collage Art",
+  "description": "Cut paper, a dashed edge, and pieces that look pasted down.",
+  "bestFor": "Stories and portfolios that should feel assembled by hand.",
+  "tokens": {
+    "background": "linear-gradient(135deg, #f6e7c1 0 46%, #1d4e89 46% 48%, #e23d28 48% 100%)",
+    "surface": "#fffaf2",
+    "text": "#1c140e",
+    "muted": "#7a4b32",
+    "accent": "#1d4e89",
+    "border": "2px dashed #1c140e",
+    "radius": "0px",
+    "shadow": "8px 8px 0 rgba(226, 61, 40, 0.9)",
+    "font": "Georgia, 'Times New Roman', serif",
+    "backdrop": "none"
+  },
+  "promptFragment": "Visual style: Collage Art. Layer paper-colored panels over split fields of color. Use a dashed cut-paper edge, a serif for body, and a hard offset shadow so each piece looks pasted on. Mix two or three unrelated hues. Avoid one neat corporate grid, glass blur, and polished gradients. Keep text readable: meet WCAG 2.2 AA contrast (4.5:1) against the surface the text actually sits on. https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+}

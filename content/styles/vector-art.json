@@ -1,0 +1,19 @@
+{
+  "id": "vector-art",
+  "name": "Vector Art",
+  "description": "Flat saturated shapes, a heavy contour, and no shading.",
+  "bestFor": "Marketing sections that should read as crisp vector artwork.",
+  "tokens": {
+    "background": "#fffdf7",
+    "surface": "#2454e6",
+    "text": "#ffffff",
+    "muted": "#d6e4ff",
+    "accent": "#ffd23f",
+    "border": "3px solid #111111",
+    "radius": "16px",
+    "shadow": "none",
+    "font": "'Trebuchet MS', 'Segoe UI', sans-serif",
+    "backdrop": "none"
+  },
+  "promptFragment": "Visual style: Vector Art. Use flat fills, bold black contours, simple geometric shapes, and a few saturated colors. Corners are smoothly rounded. Avoid gradients, blur, texture, photoreal shading, and thin gray chrome. Keep text readable: meet WCAG 2.2 AA contrast (4.5:1) against the surface the text actually sits on. https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+}

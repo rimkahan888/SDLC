@@ -1,0 +1,19 @@
+{
+  "id": "swiss-design",
+  "name": "Swiss Design",
+  "description": "White, black, one red, and a grid with nothing extra.",
+  "bestFor": "Posters and product UI that should feel objective and strictly aligned.",
+  "tokens": {
+    "background": "#ffffff",
+    "surface": "#ffffff",
+    "text": "#111111",
+    "muted": "#333333",
+    "accent": "#e10600",
+    "border": "2px solid #111111",
+    "radius": "0px",
+    "shadow": "none",
+    "font": "Helvetica, Arial, sans-serif",
+    "backdrop": "none"
+  },
+  "promptFragment": "Visual style: Swiss Design. Use a white ground, black Helvetica-like sans, a single red action color, square corners, and no shadow. Align everything to a hard grid and let type do the work. Avoid decoration, texture, extra hues, and rounded pills. Keep text readable: meet WCAG 2.2 AA contrast (4.5:1) against the surface the text actually sits on. https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+}

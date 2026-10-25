@@ -18,7 +18,8 @@ import docsRuleMd from '../../../templates/docs-rule-example.md?raw'
 import intentMd from '../../../templates/intent.md?raw'
 import maintainMd from '../../../templates/maintain-change-request.md?raw'
 import pullRequestMd from '../../../templates/pull_request_template.md?raw'
-import type { OptionGroup, PromptOption, PromptShell, Stage, TemplateFile } from '@/domain/types'
+import { styleTokenKeys } from '@/domain/styleTokens'
+import type { OptionGroup, PromptOption, PromptShell, Stage, Style, StyleTokens, TemplateFile } from '@/domain/types'
 
 // Temporary read, same as the scaffold placeholder. The API and the static
 // export arrive in a later change; until then the builder imports content/.
@@ -52,6 +53,92 @@ type RawTemplate = {
   file: string
 }
 
+const styleModules = import.meta.glob('../../../content/styles/*.json', {
+  eager: true,
+  import: 'default',
+}) as Record<string, unknown>
+
+function isStringArray(value: unknown): value is string[] {
+  return Array.isArray(value) && value.every((item) => typeof item === 'string')
+}
+
+function readTokens(value: unknown): StyleTokens | null {
+  if (typeof value !== 'object' || value === null) return null
+  const record = value as Record<string, unknown>
+  const tokens = {} as StyleTokens
+  for (const key of styleTokenKeys) {
+    const entry = record[key]
+    if (typeof entry !== 'string' || entry.trim() === '') return null
+    tokens[key] = entry
+  }
+  return tokens
+}
+
+function readStyle(value: unknown): Style | null {
+  if (typeof value !== 'object' || value === null) return null
+  const record = value as Record<string, unknown>
+  const tokens = readTokens(record.tokens)
+  if (!tokens) return null
+  if (typeof record.id !== 'string' || record.id.trim() === '') return null
+  if (typeof record.name !== 'string' || record.name.trim() === '') return null
+  if (typeof record.description !== 'string' || record.description.trim() === '') return null
+  if (typeof record.bestFor !== 'string' || record.bestFor.trim() === '') return null
+  if (typeof record.promptFragment !== 'string' || record.promptFragment.trim() === '') return null
+  return {
+    id: record.id,
+    name: record.name,
+    description: record.description,
+    bestFor: record.bestFor,
+    tokens,
+    promptFragment: record.promptFragment,
+  }
+}
+
+export function sortStyleIds(ids: readonly string[], order: readonly string[]): string[] {
+  const rank = new Map(order.map((id, index) => [id, index]))
+  return [...ids].sort((left, right) => {
+    const leftRank = rank.get(left) ?? Number.MAX_SAFE_INTEGER
+    const rightRank = rank.get(right) ?? Number.MAX_SAFE_INTEGER
+    if (leftRank !== rightRank) return leftRank - rightRank
+    if (left < right) return -1
+    if (left > right) return 1
+    return 0
+  })
+}
+
+function readStyleOrder(modules: Record<string, unknown>): string[] {
+  for (const [key, value] of Object.entries(modules)) {
+    if (key.endsWith('/order.json') && isStringArray(value)) return value
+  }
+  return []
+}
+
+const loadedStyles = new Map<string, Style>()
+for (const value of Object.values(styleModules)) {
+  const style = readStyle(value)
+  if (style) loadedStyles.set(style.id, style)
+}
+
+export const styleOrder: readonly string[] = readStyleOrder(styleModules)
+
+export const styles: Style[] = sortStyleIds([...loadedStyles.keys()], styleOrder)
+  .map((id) => loadedStyles.get(id))
+  .filter((style): style is Style => style !== undefined)
+
+function styleOption(style: Style): PromptOption {
+  return {
+    id: style.id,
+    label: style.name,
+    detail: style.description,
+    promptFragment: style.promptFragment,
+    preview: {
+      styleId: style.id,
+      bestFor: style.bestFor,
+      tokens: style.tokens,
+    },
+  }
+}
+
 function normalizeGroup(group: RawGroup): OptionGroup {
   return {
     id: group.id,
@@ -61,7 +148,7 @@ function normalizeGroup(group: RawGroup): OptionGroup {
     required: group.required,
     presentation: group.presentation,
     defaultOptionIds: group.defaultOptionIds ?? [],
-    options: group.options ?? [],
+    options: group.optionsFrom === 'styles' ? styles.map(styleOption) : (group.options ?? []),
     optionsFrom: group.optionsFrom,
   }
 }

@@ -163,7 +163,7 @@
     {
       "id": "visual-style",
       "label": "Visual style",
-      "help": "Pick one or more looks. Skip this when the change has no UI.",
+      "help": "Pick one or more looks. The first look is the primary system and later looks are accents. Skip this when the change has no UI.",
       "selection": "multi",
       "required": false,
       "presentation": "visual",

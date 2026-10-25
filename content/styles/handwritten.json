@@ -1,0 +1,19 @@
+{
+  "id": "handwritten",
+  "name": "Handwritten",
+  "description": "Ink on warm paper, in a hand-drawn face.",
+  "bestFor": "Notes, journals, and invites that should feel written, not set.",
+  "tokens": {
+    "background": "#fff6ea",
+    "surface": "#fffdf8",
+    "text": "#243056",
+    "muted": "#5c6b8a",
+    "accent": "#b8432c",
+    "border": "2px solid #243056",
+    "radius": "18px",
+    "shadow": "3px 3px 0 rgba(36, 48, 86, 0.12)",
+    "font": "'Segoe Script', 'Segoe Print', 'Comic Sans MS', 'Bradley Hand', cursive",
+    "backdrop": "none"
+  },
+  "promptFragment": "Visual style: Handwritten. Use warm paper, ink-blue text, a coral action, and a cursive or printed-hand family. The frame is a solid stroke with a soft radius, and there is no glossy shadow. Avoid monospace, an all-caps grotesque, neon, and a perfect technical grid. Keep text readable: meet WCAG 2.2 AA contrast (4.5:1) against the surface the text actually sits on. https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+}

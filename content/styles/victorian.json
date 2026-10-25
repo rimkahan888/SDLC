@@ -1,0 +1,19 @@
+{
+  "id": "victorian",
+  "name": "Victorian",
+  "description": "Cream paper, a double gilt rule, and a burgundy action.",
+  "bestFor": "Formal pages that should feel printed and ornamented.",
+  "tokens": {
+    "background": "#2c1810",
+    "surface": "#f4e8d0",
+    "text": "#2a1810",
+    "muted": "#7a5b3a",
+    "accent": "#6e1e2a",
+    "border": "3px double #6b4b2a",
+    "radius": "2px",
+    "shadow": "0 0 0 3px #2c1810, 0 0 0 5px #c4a574",
+    "font": "'Palatino Linotype', Palatino, 'Times New Roman', serif",
+    "backdrop": "none"
+  },
+  "promptFragment": "Visual style: Victorian. Use a dark wood ground, cream panels, a double gilt border, burgundy for actions, and a classical serif. Corners are nearly square. Ornament stays in the frame, not in the words. Avoid neon, pixel edges, and casual handwritten type. Keep text readable: meet WCAG 2.2 AA contrast (4.5:1) against the surface the text actually sits on. https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+}
