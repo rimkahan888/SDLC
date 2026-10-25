@@ -4,13 +4,17 @@ import { RouterView, useRoute, useRouter } from 'vue-router'
 import AppHeader from '@/components/AppHeader.vue'
 import ShortcutDialog from '@/components/ShortcutDialog.vue'
 import ToastHost from '@/components/ToastHost.vue'
-import { stageByOrder } from '@/content/catalog'
+import { contentState, loadContent, stageByOrder } from '@/content/catalog'
 import { isTypingTarget, matchShortcut, viewForPath } from '@/domain/shortcuts'
 import { helpOpen, toggleHelp } from '@/feedback'
 import { runPromptAction } from '@/promptActions'
 
 const route = useRoute()
 const router = useRouter()
+
+void loadContent().catch(() => {
+  // The page alert and the toast already name the failure.
+})
 
 function onKeydown(event: KeyboardEvent): void {
   if (event.repeat || event.metaKey || event.ctrlKey || event.altKey) return
@@ -60,6 +64,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
 <template>
   <div class="page">
     <AppHeader />
+    <p v-if="contentState.error" class="error-text" role="alert">Error: {{ contentState.error }}</p>
     <RouterView />
     <ToastHost />
     <ShortcutDialog />

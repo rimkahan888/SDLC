@@ -36,3 +36,11 @@ xUnit fixtures, or the real `content/` tree with one file broken, must make the 
 ## Commands
 
 The single local entry point arrives with the test issue. Until then, the intended commands are `dotnet test` from the repo root and, in `web/`, `npm run test` (Vitest) and `npx playwright test`.
+
+Vitest and the production build read the JSON export. Generate it before `npm test`, `npm run build`, or Playwright against the preview server:
+
+```bash
+dotnet run --project api -- export web/public/data
+```
+
+Playwright against `npm run dev` uses the API on port 5080 instead of those files. The API has to be running.

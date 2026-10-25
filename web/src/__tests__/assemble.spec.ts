@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest'
-import { promptShell, stages, templates } from '@/content/catalog'
+import { beforeAll, describe, expect, it } from 'vitest'
+import { contentState, loadContent } from '@/content/catalog'
 import { assemblePrompt, visualBlendLead } from '@/domain/assemble'
 import { emptyChoices, openRequiredCount, withStageSkipped } from '@/domain/choices'
 import type { PromptChoices, PromptShell, Stage } from '@/domain/types'
@@ -127,6 +127,10 @@ function fixtureStages(): Stage[] {
   ]
 }
 
+beforeAll(async () => {
+  await loadContent()
+})
+
 describe('assemblePrompt', () => {
   it('matches the documented sample', () => {
     const choices: PromptChoices = {
@@ -232,7 +236,12 @@ When you are unsure, stop and ask. Use the official documentation named above.`)
       },
       skippedStages: [],
     }
-    const { text, starterFiles } = assemblePrompt(stages, promptShell, choices, templates)
+    const { text, starterFiles } = assemblePrompt(
+      contentState.stages,
+      contentState.promptShell,
+      choices,
+      contentState.templates,
+    )
     const headings = [...text.matchAll(/^## (\d+)\. (.+)$/gm)].map((match) => `${match[1]} ${match[2]}`)
     expect(headings).toEqual([
       '1 Plan',
@@ -256,12 +265,17 @@ When you are unsure, stop and ask. Use the official documentation named above.`)
   })
 
   it('uses defaults for an empty choice set and leaves required groups open', () => {
-    const { text } = assemblePrompt(stages, promptShell, emptyChoices(), templates)
+    const { text } = assemblePrompt(
+      contentState.stages,
+      contentState.promptShell,
+      emptyChoices(),
+      contentState.templates,
+    )
     expect(text).not.toContain('## 1. Plan')
     expect(text).not.toContain('## 2. Design')
     expect(text).toContain('## 3. Build')
     expect(text).toContain('## 5. Deploy')
     expect(text).toContain('## 6. Maintain')
-    expect(openRequiredCount(stages, emptyChoices())).toBe(4)
+    expect(openRequiredCount(contentState.stages, emptyChoices())).toBe(4)
   })
 })

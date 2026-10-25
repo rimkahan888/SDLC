@@ -168,6 +168,12 @@
           "promptFragment": "Official docs: Problem details — https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling?view=aspnetcore-10.0"
         },
         {
+          "id": "health-checks",
+          "label": "Health checks",
+          "detail": "GET /health reports that the process is up.",
+          "promptFragment": "Official docs: Health checks — https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-10.0"
+        },
+        {
           "id": "json-names",
           "label": "JSON property names",
           "detail": "Responses use camelCase.",

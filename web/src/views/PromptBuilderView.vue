@@ -5,7 +5,7 @@ import OptionGroup from '@/components/OptionGroup.vue'
 import PromptActions from '@/components/PromptActions.vue'
 import StyleMock from '@/components/StyleMock.vue'
 import Icon from '@/components/Icon.vue'
-import { stageById, stages } from '@/content/catalog'
+import { contentState, loadContent, stageById } from '@/content/catalog'
 import { PROMPT_DOWNLOAD_NAME, templateDownloadName } from '@/domain/copyText'
 import {
   choicesJson,
@@ -39,22 +39,29 @@ const focusedStyleId = ref<string | null>(null)
 let tickTimer = 0
 let flashTimer = 0
 
+void loadContent().catch(() => {
+  // The page alert and the toast already name the failure.
+})
+
 const stageId = computed(() => {
   const raw = route.params.stageId
   return typeof raw === 'string' && raw.length > 0 ? raw : 'plan'
 })
 
+const stages = computed(() => contentState.stages)
 const current = computed(() => stageById(stageId.value))
-const remaining = computed(() => choicesLeftLabel(openRequiredCount(stages, choices.value)))
+const remaining = computed(() =>
+  contentState.ready ? choicesLeftLabel(openRequiredCount(stages.value, choices.value)) : '',
+)
 const skipped = computed(() => (current.value ? stageIsSkipped(choices.value, current.value.id) : false))
 
 const previous = computed(() => neighbor(-1))
 const nextStage = computed(() => neighbor(1))
 
 function neighbor(offset: number): Stage | undefined {
-  const index = stages.findIndex((stage) => stage.id === stageId.value)
+  const index = stages.value.findIndex((stage) => stage.id === stageId.value)
   if (index < 0) return undefined
-  return stages[index + offset]
+  return stages.value[index + offset]
 }
 
 function selectedIds(stage: Stage, group: OptionGroupModel): string[] {
@@ -264,9 +271,12 @@ onBeforeUnmount(() => {
         </div>
       </div>
 
-      <p v-if="!current" class="error-text" role="alert">Error: No stage with id '{{ stageId }}'.</p>
+      <p v-if="!contentState.ready && !contentState.error" class="stage-line">Loading content.</p>
+      <p v-else-if="contentState.ready && !current" class="error-text" role="alert">
+        Error: No stage with id '{{ stageId }}'.
+      </p>
 
-      <template v-else>
+      <template v-else-if="current">
         <div class="stage-intro">
           <p class="stage-kicker">{{ current.order }}. {{ current.name }}</p>
           <p class="stage-line">{{ current.oneLiner }}</p>

@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest'
-import { stages } from '@/content/catalog'
+import { beforeAll, describe, expect, it } from 'vitest'
+import { contentState, loadContent } from '@/content/catalog'
 import {
   choicesJson,
   choicesLeftLabel,
@@ -12,6 +12,10 @@ import {
 import { optionCardText } from '@/domain/copyText'
 import { resolveStoredNumber } from '@/domain/preferences'
 import { matchShortcut, promptShortcuts } from '@/domain/shortcuts'
+
+beforeAll(async () => {
+  await loadContent()
+})
 
 describe('choices', () => {
   it('round-trips the share payload', () => {
@@ -30,7 +34,7 @@ describe('choices', () => {
   })
 
   it('applies a default only when the stage is not skipped and nothing is stored', () => {
-    const build = stages.find((stage) => stage.id === 'build')
+    const build = contentState.stages.find((stage) => stage.id === 'build')
     const group = build?.optionGroups.find((item) => item.id === 'plan-first')
     expect(build).toBeTruthy()
     expect(group).toBeTruthy()
@@ -43,7 +47,7 @@ describe('choices', () => {
   })
 
   it('clears a skippable group without removing the stage', () => {
-    const plan = stages.find((stage) => stage.id === 'plan')
+    const plan = contentState.stages.find((stage) => stage.id === 'plan')
     const group = plan?.optionGroups.find((item) => item.id === 'docs')
     expect(plan && group).toBeTruthy()
     if (!plan || !group) return
