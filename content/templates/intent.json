@@ -1,0 +1,6 @@
+{
+  "id": "intent",
+  "name": "Intent",
+  "stage": "plan",
+  "file": "templates/intent.md"
+}

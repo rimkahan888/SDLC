@@ -1,0 +1,6 @@
+{
+  "id": "docs-rule",
+  "name": "Docs rule",
+  "stage": "design",
+  "file": "templates/docs-rule-example.md"
+}

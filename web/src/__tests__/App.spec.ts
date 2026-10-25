@@ -2,10 +2,11 @@ import { describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import App from '../App.vue'
+import { stages } from '../stages'
 import PlaceholderView from '../views/PlaceholderView.vue'
 
 describe('App', () => {
-  it('renders the scaffold placeholder', async () => {
+  it('lists the six stages from content', async () => {
     const router = createRouter({
       history: createWebHashHistory(),
       routes: [{ path: '/', component: PlaceholderView }],
@@ -20,6 +21,20 @@ describe('App', () => {
     await router.isReady()
 
     expect(wrapper.get('h1').text()).toBe('SDLC')
-    expect(wrapper.text()).toContain('Scaffold placeholder.')
+    expect(stages.map((stage) => stage.id)).toEqual([
+      'plan',
+      'design',
+      'build',
+      'test',
+      'deploy',
+      'maintain',
+    ])
+
+    const items = wrapper.findAll('li')
+    expect(items).toHaveLength(6)
+    stages.forEach((stage, index) => {
+      expect(items[index]?.text()).toContain(stage.name)
+      expect(items[index]?.text()).toContain(stage.oneLiner)
+    })
   })
 })

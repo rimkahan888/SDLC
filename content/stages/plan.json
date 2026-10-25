@@ -1,0 +1,293 @@
+{
+  "id": "plan",
+  "order": 1,
+  "name": "Plan",
+  "oneLiner": "Describe the change, the constraints, and the official docs before any code.",
+  "goal": "Give the next agent enough context that it does not guess.",
+  "keyArtifact": "intent.md",
+  "steps": [
+    {
+      "id": "describe",
+      "title": "Describe the change",
+      "text": "Write what is changing, who it is for, and the constraints."
+    },
+    {
+      "id": "docs",
+      "title": "Paste official docs",
+      "text": "Find the official documentation and paste the links into the intent."
+    },
+    {
+      "id": "done",
+      "title": "Define done",
+      "text": "List the checks that will decide the work is finished."
+    }
+  ],
+  "doneChecks": [
+    {
+      "id": "answers",
+      "text": "intent.md says what, why, for whom, the constraints, and what done means."
+    },
+    {
+      "id": "links",
+      "text": "Every technical claim has an official docs link."
+    }
+  ],
+  "pitfalls": [
+    {
+      "id": "guessing",
+      "text": "Leaving the agent to guess an API instead of pasting the official docs."
+    }
+  ],
+  "quotes": [
+    {
+      "text": "Go find the official docs yourself and paste the link so the agent is not guessing.",
+      "source": "SDLC framework notes"
+    }
+  ],
+  "templates": ["intent"],
+  "optionGroups": [
+    {
+      "id": "change-type",
+      "label": "Change type",
+      "help": "What kind of work is this?",
+      "selection": "single",
+      "required": true,
+      "presentation": "text",
+      "options": [
+        {
+          "id": "new-app",
+          "label": "New app",
+          "detail": "Start a project that does not exist yet.",
+          "promptFragment": "This is a new app. Propose the smallest structure that matches the constraints, and wait for the plan to be accepted before you add it.",
+          "starterFiles": ["intent"]
+        },
+        {
+          "id": "feature",
+          "label": "Feature",
+          "detail": "Add something to an existing project.",
+          "promptFragment": "This is a feature on an existing project. Read the repository before proposing files. Keep the change inside the current architecture."
+        },
+        {
+          "id": "bug-fix",
+          "label": "Bug fix",
+          "detail": "Change an existing behavior that is wrong.",
+          "promptFragment": "This is a bug fix. State the current behavior and the intended behavior before changing code. Touch only the files that behavior requires."
+        },
+        {
+          "id": "refactor",
+          "label": "Refactor",
+          "detail": "Change the structure and keep the behavior.",
+          "promptFragment": "This is a refactor. Preserve the behavior a person can observe. Call out any behavior you cannot prove is unchanged."
+        }
+      ]
+    },
+    {
+      "id": "docs",
+      "label": "Official docs to include",
+      "help": "Skip this when you will paste the links yourself.",
+      "selection": "multi",
+      "required": false,
+      "presentation": "text",
+      "options": [
+        {
+          "id": "vue",
+          "label": "Vue",
+          "detail": "Vue 3 guide.",
+          "promptFragment": "Official docs: Vue — https://vuejs.org/guide/introduction.html"
+        },
+        {
+          "id": "vue-quick-start",
+          "label": "Vue quick start",
+          "detail": "The scaffold command and the Node versions it supports.",
+          "promptFragment": "Official docs: Vue quick start — https://vuejs.org/guide/quick-start.html"
+        },
+        {
+          "id": "vite",
+          "label": "Vite",
+          "detail": "Dev server and production build.",
+          "promptFragment": "Official docs: Vite — https://vite.dev/guide/"
+        },
+        {
+          "id": "vite-base",
+          "label": "Vite base",
+          "detail": "The public base path for a project site.",
+          "promptFragment": "Official docs: Vite base — https://vite.dev/guide/build.html"
+        },
+        {
+          "id": "vite-public",
+          "label": "Vite public directory",
+          "detail": "Files copied into the build as-is.",
+          "promptFragment": "Official docs: Vite public directory — https://vite.dev/guide/assets.html#the-public-directory"
+        },
+        {
+          "id": "vite-proxy",
+          "label": "Vite proxy",
+          "detail": "Dev-server proxy for the local API.",
+          "promptFragment": "Official docs: Vite proxy — https://vite.dev/config/server-options.html#server-proxy"
+        },
+        {
+          "id": "vue-router",
+          "label": "Vue Router",
+          "detail": "Routes for the cheatsheet and the prompt builder.",
+          "promptFragment": "Official docs: Vue Router — https://router.vuejs.org/guide/"
+        },
+        {
+          "id": "vue-router-history",
+          "label": "Vue Router history modes",
+          "detail": "Hash mode needs no server rewrite.",
+          "promptFragment": "Official docs: Vue Router history modes — https://router.vuejs.org/guide/essentials/history-mode.html"
+        },
+        {
+          "id": "typescript",
+          "label": "TypeScript",
+          "detail": "The web app is TypeScript.",
+          "promptFragment": "Official docs: TypeScript — https://www.typescriptlang.org/docs/"
+        },
+        {
+          "id": "markdown-it",
+          "label": "markdown-it",
+          "detail": "Renders template markdown.",
+          "promptFragment": "Official docs: markdown-it — https://markdown-it.github.io/"
+        },
+        {
+          "id": "minimal-apis",
+          "label": "ASP.NET Core minimal APIs",
+          "detail": "The .NET 10 overview.",
+          "promptFragment": "Official docs: ASP.NET Core minimal APIs — https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/overview?view=aspnetcore-10.0"
+        },
+        {
+          "id": "cors",
+          "label": "CORS",
+          "detail": "Dev-only cross-origin policy.",
+          "promptFragment": "Official docs: CORS — https://learn.microsoft.com/en-us/aspnet/core/security/cors?view=aspnetcore-10.0"
+        },
+        {
+          "id": "problem-details",
+          "label": "Problem details",
+          "detail": "The body for an unknown id.",
+          "promptFragment": "Official docs: Problem details — https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling?view=aspnetcore-10.0"
+        },
+        {
+          "id": "json-names",
+          "label": "JSON property names",
+          "detail": "Responses use camelCase.",
+          "promptFragment": "Official docs: JSON property names — https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/customize-properties"
+        },
+        {
+          "id": "dotnet-support",
+          "label": ".NET support policy",
+          "detail": "Why the API targets .NET 10.",
+          "promptFragment": "Official docs: .NET support policy — https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core"
+        },
+        {
+          "id": "dotnet-releases",
+          "label": ".NET releases and support",
+          "detail": "The same support dates, on the docs site.",
+          "promptFragment": "Official docs: .NET releases and support — https://learn.microsoft.com/en-us/dotnet/core/releases-and-support"
+        },
+        {
+          "id": "xunit",
+          "label": "xUnit v3",
+          "detail": "API and content-validation tests.",
+          "promptFragment": "Official docs: xUnit v3 — https://xunit.net/docs/getting-started/v3/getting-started"
+        },
+        {
+          "id": "xunit-home",
+          "label": "xUnit",
+          "detail": "Project home for the test runner.",
+          "promptFragment": "Official docs: xUnit — https://xunit.net/"
+        },
+        {
+          "id": "vitest",
+          "label": "Vitest",
+          "detail": "Vue component and pure-function tests.",
+          "promptFragment": "Official docs: Vitest — https://vitest.dev/guide/"
+        },
+        {
+          "id": "playwright",
+          "label": "Playwright",
+          "detail": "End-to-end tests.",
+          "promptFragment": "Official docs: Playwright — https://playwright.dev/docs/intro"
+        },
+        {
+          "id": "playwright-viewports",
+          "label": "Playwright viewports",
+          "detail": "The two widths are 540 and 1440.",
+          "promptFragment": "Official docs: Playwright viewports — https://playwright.dev/docs/emulation"
+        },
+        {
+          "id": "playwright-screenshots",
+          "label": "Playwright screenshots",
+          "detail": "Capture the page at both widths.",
+          "promptFragment": "Official docs: Playwright screenshots — https://playwright.dev/docs/screenshots"
+        },
+        {
+          "id": "github-actions",
+          "label": "GitHub Actions",
+          "detail": "Build, test, and the Pages deploy workflow.",
+          "promptFragment": "Official docs: GitHub Actions — https://docs.github.com/en/actions"
+        },
+        {
+          "id": "github-pages",
+          "label": "GitHub Pages",
+          "detail": "Static hosting for the built site.",
+          "promptFragment": "Official docs: GitHub Pages — https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages"
+        },
+        {
+          "id": "github-pages-creating",
+          "label": "Creating a GitHub Pages site",
+          "detail": "Pages publishes static files.",
+          "promptFragment": "Official docs: Creating a GitHub Pages site — https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site"
+        },
+        {
+          "id": "github-pages-publishing",
+          "label": "GitHub Pages publishing source",
+          "detail": "A custom Actions workflow deploys the artifact.",
+          "promptFragment": "Official docs: GitHub Pages publishing source — https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site"
+        },
+        {
+          "id": "mermaid",
+          "label": "Mermaid diagrams on GitHub",
+          "detail": "Fenced mermaid blocks render in markdown.",
+          "promptFragment": "Official docs: Mermaid diagrams on GitHub — https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams"
+        },
+        {
+          "id": "local-storage",
+          "label": "localStorage",
+          "detail": "Sliders, project runs, and prompt choices persist here.",
+          "promptFragment": "Official docs: localStorage — https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage"
+        },
+        {
+          "id": "clipboard",
+          "label": "Clipboard",
+          "detail": "Copy writes plain text through the clipboard API.",
+          "promptFragment": "Official docs: Clipboard — https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/writeText"
+        },
+        {
+          "id": "secure-context",
+          "label": "Secure contexts",
+          "detail": "Clipboard writes require a secure context.",
+          "promptFragment": "Official docs: Secure contexts — https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Secure_Contexts"
+        },
+        {
+          "id": "color-scheme",
+          "label": "color-scheme",
+          "detail": "Dark chrome, including native controls.",
+          "promptFragment": "Official docs: color-scheme — https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/color-scheme"
+        },
+        {
+          "id": "reduced-motion",
+          "label": "prefers-reduced-motion",
+          "detail": "Sliders animate unless the person asked for less motion.",
+          "promptFragment": "Official docs: prefers-reduced-motion — https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/prefers-reduced-motion"
+        },
+        {
+          "id": "contrast",
+          "label": "WCAG contrast",
+          "detail": "Body text meets 4.5:1.",
+          "promptFragment": "Official docs: WCAG contrast — https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,173 @@
+{
+  "id": "design",
+  "order": 2,
+  "name": "Design",
+  "oneLiner": "Write the specs, AGENTS.md, and the docs rules before the build.",
+  "goal": "Leave rules a later agent can follow without the conversation that produced them.",
+  "keyArtifact": "AGENTS.md and docs/",
+  "steps": [
+    {
+      "id": "write-specs",
+      "title": "Write the specs",
+      "text": "Name the stack, the documents this stage produces, and the behavior that is easy to simplify away."
+    },
+    {
+      "id": "write-agents",
+      "title": "Write AGENTS.md",
+      "text": "Fill AGENTS.md from the template so the next agent can start from it."
+    },
+    {
+      "id": "record-rules",
+      "title": "Record durable rules",
+      "text": "Put rules that must outlive the chat under docs/, and paste the official docs they rely on."
+    }
+  ],
+  "doneChecks": [
+    {
+      "id": "specs",
+      "text": "The specs name the stack, the documents, and the rules that outlive the chat."
+    },
+    {
+      "id": "agents-file",
+      "text": "AGENTS.md exists and points at those rules."
+    },
+    {
+      "id": "rules-filed",
+      "text": "Durable rules live under docs/, with official links for the APIs they rely on."
+    }
+  ],
+  "pitfalls": [
+    {
+      "id": "chat-only",
+      "text": "Leaving a rule only in the chat, where the next agent cannot read it."
+    }
+  ],
+  "quotes": [
+    {
+      "text": "Design produces specs, AGENTS.md, and docs/.",
+      "source": "SDLC framework notes"
+    }
+  ],
+  "templates": ["agents", "docs-rule"],
+  "optionGroups": [
+    {
+      "id": "stack",
+      "label": "Stack",
+      "help": "Which stack should the agent follow?",
+      "selection": "single",
+      "required": true,
+      "presentation": "text",
+      "options": [
+        {
+          "id": "vue-csharp",
+          "label": "Vue and C#",
+          "detail": "Vue 3 with TypeScript and Vite, plus an ASP.NET Core minimal API.",
+          "promptFragment": "Stack: Vue 3 with TypeScript and Vite, and an ASP.NET Core minimal API in C#. Vue: https://vuejs.org/guide/introduction.html. Vite: https://vite.dev/guide/. Minimal APIs: https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/overview?view=aspnetcore-10.0."
+        },
+        {
+          "id": "vue",
+          "label": "Vue",
+          "detail": "A Vue 3 application, with no API in this change.",
+          "promptFragment": "Stack: a Vue 3 application with TypeScript and Vite. Vue: https://vuejs.org/guide/introduction.html. Vite: https://vite.dev/guide/."
+        },
+        {
+          "id": "csharp",
+          "label": "C#",
+          "detail": "An ASP.NET Core minimal API, with no web UI in this change.",
+          "promptFragment": "Stack: an ASP.NET Core minimal API in C#. https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/overview?view=aspnetcore-10.0."
+        },
+        {
+          "id": "other",
+          "label": "Other",
+          "detail": "Use the stack named in the intent.",
+          "promptFragment": "Stack: use the languages and frameworks named in the intent. Paste the official documentation for each one before relying on an API."
+        }
+      ]
+    },
+    {
+      "id": "agents",
+      "label": "AGENTS.md",
+      "help": "Generate a new AGENTS.md, or keep the one already in the repo?",
+      "selection": "single",
+      "required": true,
+      "presentation": "text",
+      "options": [
+        {
+          "id": "generate",
+          "label": "Generate AGENTS.md",
+          "detail": "Start from the AGENTS template.",
+          "promptFragment": "Write AGENTS.md for this project. Start from the starter file templates/AGENTS.md and fill it from the decisions in this prompt.",
+          "starterFiles": ["agents"]
+        },
+        {
+          "id": "existing",
+          "label": "Use the existing AGENTS.md",
+          "detail": "Read the file that is already in the repo.",
+          "promptFragment": "AGENTS.md already exists. Read it and follow it. Change it only where this prompt names a rule that is wrong."
+        }
+      ]
+    },
+    {
+      "id": "rules",
+      "label": "Rules",
+      "help": "Skip this when the intent already names the rules.",
+      "selection": "multi",
+      "required": false,
+      "presentation": "text",
+      "options": [
+        {
+          "id": "official-docs",
+          "label": "Official docs",
+          "detail": "Paste a link before relying on an API.",
+          "promptFragment": "Rule: paste the official documentation link before relying on an API. Do not cite blog posts for technical claims."
+        },
+        {
+          "id": "plan-before-code",
+          "label": "Plan before code",
+          "detail": "Correct the plan before application code.",
+          "promptFragment": "Rule: correct the plan before writing application code. Wait until the plan is accepted."
+        },
+        {
+          "id": "side-panel",
+          "label": "Narrow layout",
+          "detail": "Usable at about 540px, with the detail region at half the page.",
+          "promptFragment": "Rule: keep the UI usable at about 540px wide, with no horizontal scrolling. The detail region defaults to half the page: the right half from 960px up, and a bottom sheet below that."
+        },
+        {
+          "id": "dark-chrome",
+          "label": "Dark chrome",
+          "detail": "The application chrome stays dark.",
+          "promptFragment": "Rule: keep the application chrome on a dark theme. A visual style previews another look and does not restyle the chrome."
+        },
+        {
+          "id": "content-data",
+          "label": "Content as data",
+          "detail": "Options and styles are files, not code.",
+          "promptFragment": "Rule: stages, template indexes, prompt options, and styles are data. Add an option or a style by editing content, not application code."
+        },
+        {
+          "id": "done-checks",
+          "label": "Done-checks on the pull request",
+          "detail": "Every pull request names its checks.",
+          "promptFragment": "Rule: every pull request lists its done-checks and how they were verified."
+        },
+        {
+          "id": "write-docs-rule",
+          "label": "Docs rule",
+          "detail": "Start a durable rule from the template.",
+          "promptFragment": "Add a durable rule under docs/. Start from the starter file templates/docs-rule-example.md and fill it from this project.",
+          "starterFiles": ["docs-rule"]
+        }
+      ]
+    },
+    {
+      "id": "visual-style",
+      "label": "Visual style",
+      "help": "Pick one or more looks. Skip this when the change has no UI.",
+      "selection": "multi",
+      "required": false,
+      "presentation": "visual",
+      "optionsFrom": "styles"
+    }
+  ]
+}

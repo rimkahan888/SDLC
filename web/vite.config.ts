@@ -16,6 +16,12 @@ export default defineConfig({
     },
   },
   server: {
+    // The placeholder imports stage JSON from the repo content/ directory.
+    // Vite's dev server otherwise refuses files outside web/.
+    // https://vite.dev/config/server-options.html#server-fs-allow
+    fs: {
+      allow: [fileURLToPath(new URL('..', import.meta.url))],
+    },
     proxy: {
       '/api': {
         target: 'http://localhost:5080',

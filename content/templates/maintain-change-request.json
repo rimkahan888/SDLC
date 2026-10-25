@@ -1,0 +1,6 @@
+{
+  "id": "maintain-change-request",
+  "name": "Change request",
+  "stage": "maintain",
+  "file": "templates/maintain-change-request.md"
+}

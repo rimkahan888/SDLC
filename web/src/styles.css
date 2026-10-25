@@ -94,3 +94,23 @@ h1 {
   margin-top: 0.5rem;
   color: var(--muted);
 }
+
+.stages {
+  margin: 1rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.stages li + li {
+  margin-top: 0.75rem;
+}
+
+.stage-name {
+  font-weight: 650;
+}
+
+.stage-line {
+  display: block;
+  margin-top: 0.15rem;
+  color: var(--muted);
+  overflow-wrap: break-word;
+}
