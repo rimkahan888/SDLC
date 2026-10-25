@@ -47,7 +47,7 @@ Header, always visible, including at 540px:
 - The name SDLC.
 - Two links: Cheatsheet (`#/`) and Prompt (`#/prompt`). The current one is `aria-current="page"`.
 
-Cheatsheet routes: `#/`, `#/stages/{id}`, `#/templates/{id}`.
+Cheatsheet routes: `#/`, `#/stages/{id}`, `#/templates`, `#/templates/{id}`.
 Prompt routes: `#/prompt`, `#/prompt/{stageId}`.
 
 Use `createWebHashHistory` so those paths survive a refresh on static hosting. See [architecture.md](architecture.md).
@@ -73,9 +73,12 @@ Card scale uses `calc(var(--card-scale) * <base>)` on padding and font-size. Do 
 
 - Stage cards in `order`. Each card shows the name, the one-liner, and the key artifact.
 - A card click, or Enter or Space on the focused card, sets the route to `#/stages/{id}` and opens the detail region. `O` opens that stage in the prompt builder.
-- The detail region stays closed until a stage is open. It then takes the half-page split. Esc closes the shortcut overlay first, then the detail, and returns to `#/`.
+- The detail region stays closed until a stage or a template route is open. It then takes the half-page split. Esc closes the shortcut overlay first, then backs out of a template, then closes the detail and returns to `#/`.
 - The detail header is a small stage label. It does not repeat the card's one-liner. The body shows the purpose, the key artifact, and a control that opens the stage in the prompt builder.
-- Tabs, when that part of the stage has content: Steps, Done-checks, Pitfalls, and Options. Documents is always listed. A document shows its name, a one-line summary, and a link to `#/templates/{id}`. That route selects the document. The markdown viewer is a separate change.
+- Tabs, when that part of the stage has content: Steps, Done-checks, Pitfalls, and Options. Documents is always listed. A document shows its name, a one-line summary, and a link to `#/templates/{id}`. The stage detail also links to the template index at `#/templates`.
+- `#/templates/{id}` replaces the stage detail with that template. The markdown is rendered. A control, and `M`, toggles the raw markdown. Copy and Download use the template markdown. The download file name is `{id}.md`. Back returns to the stage that owns the template, or to the index when the template was opened from there.
+- `#/templates` lists every template, grouped by stage, in the same half-page panel. Back returns to the stage when the link carried one. From the index with nowhere to go back, Esc closes the panel.
+- Double-click a rendered section to copy that section's markdown. Double-click a code block to copy the code. `j` and `k` move through the index. On an open template they open the previous or next template. `C` copies, `D` downloads, and `M` toggles rendered or raw. The `?` overlay lists these keys while a template route is open.
 - `[` and `]` move to the previous or next stage while the detail is open. Arrows, `j`, and `k` still move between cards, and the open detail follows.
 - Tabs use the arrow keys while focus is on a tab. Those arrows do not change the stage.
 
@@ -89,6 +92,8 @@ Copy uses [`navigator.clipboard.writeText`](https://developer.mozilla.org/en-US/
 | Double-click a step, or any other detail item | That item as plain text. A step is the title, a blank line, and the step text. A document is the name, a blank line, and the summary. An option is the label, a blank line, and the detail. |
 | Double-click a style card | The style's description |
 | Copy on the template viewer | The template markdown |
+| Double-click a template section | That section's markdown |
+| Double-click a template code block | The code, without the fence |
 | Copy on the prompt builder | The assembled prompt |
 | Share on the prompt builder | The page URL |
 
@@ -111,7 +116,7 @@ Ignore shortcuts while focus is in an input, textarea, select, or contenteditabl
 | Key | Cheatsheet | Prompt builder |
 | --- | --- | --- |
 | `?` | Toggle the shortcut overlay | Same |
-| Esc | Close the overlay, then the stage detail | Close the overlay |
+| Esc | Close the overlay, then a template, then the stage detail | Close the overlay |
 | 1–6 | Select that stage by `order` | Open that stage's questions |
 | ArrowLeft, ArrowUp | Previous stage. On a focused tab, the previous tab | Previous option in the focused group |
 | ArrowRight, ArrowDown | Next stage. On a focused tab, the next tab | Next option in the focused group |
@@ -122,7 +127,7 @@ Ignore shortcuts while focus is in an input, textarea, select, or contenteditabl
 
 Arrows stop at the ends.
 
-The overlay is a `dialog` with `aria-modal="true"`. It lists every shortcut for the current view. Focus moves into it and returns to the previous element on close. `?` and Esc close it. While it is open, the other shortcuts do nothing.
+The overlay is a `dialog` with `aria-modal="true"`. It lists every shortcut for the current view. On `#/templates` and `#/templates/{id}` that list is the template keys: `C` copy, `D` download, `M` rendered or raw, `j` and `k` move in the index, Enter opens the focused template, Home and End jump to the ends, Esc backs out or closes the index, and double-click copies a section or a code block. Focus moves into the overlay and returns to the previous element on close. `?` and Esc close it. While it is open, the other shortcuts do nothing.
 
 ## Prompt builder
 

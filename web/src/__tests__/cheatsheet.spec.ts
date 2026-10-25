@@ -327,7 +327,12 @@ describe('cheatsheet overview', () => {
     await detail.get('[data-copy="doc:intent"] a').trigger('click')
     await flushPromises()
     expect(router.currentRoute.value.path).toBe('/templates/intent')
-    expect(detail.get('[data-copy="doc:intent"] a').attributes('aria-current')).toBe('true')
+    expect(wrapper.get('[data-template-view]').text()).toContain('Context')
+    expect(wrapper.find('[data-markdown-mode="rendered"]').exists()).toBe(true)
+
+    window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }))
+    await flushPromises()
+    expect(router.currentRoute.value.path).toBe('/stages/plan')
 
     await detail.get('[data-tab="options"]').trigger('click')
     await flushPromises()

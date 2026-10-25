@@ -29,6 +29,13 @@ Put the copy-text builder, the prompt assembler, the slider clamp, and the short
 - Reload keeps the choices. A URL with `c` restores the shared choices.
 - Keyboard: 1–6 changes stage, arrows move inside a group, `?` lists the shortcuts, Esc closes the overlay.
 
+## Template viewer checks
+
+- Opening a document from the stage detail shows that template rendered, at 540px and at 1440px. The detail region stays half the page.
+- `M` and the raw control toggle the markdown source. Copy shows a tick and a toast. Download saves `{id}.md`.
+- `#/templates` groups templates by stage. `j` and `k` move in that list. Esc backs out to the stage, then closes the detail.
+- Rendered HTML from a template does not execute raw HTML. markdown-it runs with `html: false`.
+
 ## Content failures
 
 xUnit fixtures, or the real `content/` tree with one file broken, must make the validator return a non-zero result. Cover at least: a missing stage, a duplicate id, a visual group pointing at an unknown style, a style missing a token, a prompt shell missing `{{stages}}`.

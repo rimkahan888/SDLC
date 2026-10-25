@@ -218,7 +218,9 @@ test('stage detail is half the page and follows the stage', async ({ page }) => 
   await expect(detail.locator('[data-copy="doc:intent"]')).toContainText('intent.md')
   await detail.getByRole('link', { name: 'Intent' }).click()
   await expect(page).toHaveURL(/#\/templates\/intent/)
-  await expect(detail.getByRole('link', { name: 'Intent' })).toHaveAttribute('aria-current', 'true')
+  await expect(page.locator('[data-template-view]')).toBeVisible()
+  await page.keyboard.press('Escape')
+  await expect(page).toHaveURL(/#\/stages\/plan/)
 
   await detail.getByRole('tab', { name: 'Options' }).click()
   await expect(detail).toContainText('Change type')
