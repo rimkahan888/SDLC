@@ -33,7 +33,7 @@ Two regions on every main screen: the work (stage list, or prompt questions) and
 - Default split is half the page. The panel-size slider moves the detail region's share between 30% and 70%.
 - Wide (viewport ≥ 960px): detail is the right column. Work is the left column.
 - Narrow (< 960px): work is on top and scrolls. Detail is a bottom sheet whose height is that same share of the viewport.
-- The sheet does not cover the work. Esc closes an overlay first; it does not unmount the sheet.
+- The sheet does not cover the work. Esc closes an overlay first, then the cheatsheet's stage detail.
 - No horizontal scrolling at 540px.
 
 ```mermaid
@@ -72,9 +72,11 @@ Card scale uses `calc(var(--card-scale) * <base>)` on padding and font-size. Do 
 ## Cheatsheet
 
 - Stage cards in `order`. Each card shows the name, the one-liner, and the key artifact.
-- The detail region is always present. With no selection it says "Select a stage."
-- Selecting a card sets the route to `#/stages/{id}` and shows tabs: Steps, Done-checks, Pitfalls, Documents.
-- Documents lists that stage's templates and opens `#/templates/{id}`.
+- A card click, or Enter or Space on the focused card, sets the route to `#/stages/{id}` and opens the detail region. `O` opens that stage in the prompt builder.
+- The detail region stays closed until a stage is open. It then takes the half-page split. Esc closes the shortcut overlay first, then the detail, and returns to `#/`.
+- The detail header is a small stage label. It does not repeat the card's one-liner. The body shows the purpose, the key artifact, and a control that opens the stage in the prompt builder.
+- Tabs, when that part of the stage has content: Steps, Done-checks, Pitfalls, and Options. Documents is always listed. A document shows its name, a one-line summary, and a link to `#/templates/{id}`. That route selects the document. The markdown viewer is a separate change.
+- `[` and `]` move to the previous or next stage while the detail is open. Arrows, `j`, and `k` still move between cards, and the open detail follows.
 - Tabs use the arrow keys while focus is on a tab. Those arrows do not change the stage.
 
 ## Copy, download, and errors
@@ -84,13 +86,13 @@ Copy uses [`navigator.clipboard.writeText`](https://developer.mozilla.org/en-US/
 | Gesture | Plain text |
 | --- | --- |
 | Double-click a stage card | Name, blank line, one-liner, blank line, `Key artifact: …` |
-| Double-click a step | Title, blank line, step text |
+| Double-click a step, or any other detail item | That item as plain text. A step is the title, a blank line, and the step text. A document is the name, a blank line, and the summary. An option is the label, a blank line, and the detail. |
 | Double-click a style card | The style's description |
 | Copy on the template viewer | The template markdown |
 | Copy on the prompt builder | The assembled prompt |
 | Share on the prompt builder | The page URL |
 
-Double-click copies a stage card or a step. Sliders, buttons, and the preview keep their ordinary pointer behavior.
+Double-click copies a stage card or an item in the stage detail. Sliders, buttons, and the preview keep their ordinary pointer behavior.
 
 Success: a tick badge on the element (includes the word "Copied" for assistive tech) and a toast. The badge clears after 2s. The toast clears after 3s. One toast at a time; a new toast replaces the old one.
 
@@ -109,11 +111,13 @@ Ignore shortcuts while focus is in an input, textarea, select, or contenteditabl
 | Key | Cheatsheet | Prompt builder |
 | --- | --- | --- |
 | `?` | Toggle the shortcut overlay | Same |
-| Esc | Close the overlay, then a template view, back to the stage | Close the overlay |
+| Esc | Close the overlay, then the stage detail | Close the overlay |
 | 1–6 | Select that stage by `order` | Open that stage's questions |
-| ArrowLeft, ArrowUp | Previous stage | Previous option in the focused group |
-| ArrowRight, ArrowDown | Next stage | Next option in the focused group |
-| Enter or Space | Select the focused card | Toggle the focused option. On a single-select group, select it. |
+| ArrowLeft, ArrowUp | Previous stage. On a focused tab, the previous tab | Previous option in the focused group |
+| ArrowRight, ArrowDown | Next stage. On a focused tab, the next tab | Next option in the focused group |
+| Enter or Space | Open the stage detail | Toggle the focused option. On a single-select group, select it. |
+| `O` | Open the focused stage in the prompt builder | — |
+| `[` `]` | Previous or next stage while the detail is open | — |
 | Home / End | First / last stage | First / last option in the group |
 
 Arrows stop at the ends.

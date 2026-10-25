@@ -4,6 +4,9 @@ import type {
   PromptOption,
   PromptShell,
   Stage,
+  StageQuote,
+  StageStep,
+  StageText,
   Style,
   StylePreview,
   StyleTokens,
@@ -117,6 +120,47 @@ function readGroup(value: unknown, stageId: string): OptionGroup {
   return group
 }
 
+function readSteps(value: unknown, stageId: string): StageStep[] {
+  const label = `Stage '${stageId}' steps`
+  if (value === undefined) return []
+  if (!Array.isArray(value)) throw new Error(`${label} is not an array.`)
+  return value.map((item, index) => {
+    const record = expectRecord(item, `${label} ${index} is not an object.`)
+    const id = expectString(record.id, `${label} ${index} is missing id.`)
+    return {
+      id,
+      title: expectString(record.title, `${label} '${id}' is missing title.`),
+      text: expectString(record.text, `${label} '${id}' is missing text.`),
+    }
+  })
+}
+
+function readTextItems(value: unknown, label: string): StageText[] {
+  if (value === undefined) return []
+  if (!Array.isArray(value)) throw new Error(`${label} is not an array.`)
+  return value.map((item, index) => {
+    const record = expectRecord(item, `${label} ${index} is not an object.`)
+    const id = expectString(record.id, `${label} ${index} is missing id.`)
+    return {
+      id,
+      text: expectString(record.text, `${label} '${id}' is missing text.`),
+    }
+  })
+}
+
+function readQuotes(value: unknown, stageId: string): StageQuote[] {
+  const label = `Stage '${stageId}' quotes`
+  if (value === undefined) return []
+  if (!Array.isArray(value)) throw new Error(`${label} is not an array.`)
+  return value.map((item, index) => {
+    const record = expectRecord(item, `${label} ${index} is not an object.`)
+    return {
+      text: expectString(record.text, `${label} ${index} is missing text.`),
+      source: expectString(record.source, `${label} ${index} is missing source.`),
+    }
+  })
+}
+
 export function readStages(value: unknown): { stages: Stage[]; templateIds: string[] } {
   if (!Array.isArray(value)) throw new Error('Stages response is not an array.')
   const templateIds: string[] = []
@@ -148,6 +192,10 @@ export function readStages(value: unknown): { stages: Stage[]; templateIds: stri
       oneLiner: expectString(record.oneLiner, `Stage '${id}' is missing oneLiner.`),
       goal: expectString(record.goal, `Stage '${id}' is missing goal.`),
       keyArtifact: expectString(record.keyArtifact, `Stage '${id}' is missing keyArtifact.`),
+      steps: readSteps(record.steps, id),
+      doneChecks: readTextItems(record.doneChecks, `Stage '${id}' doneChecks`),
+      pitfalls: readTextItems(record.pitfalls, `Stage '${id}' pitfalls`),
+      quotes: readQuotes(record.quotes, id),
       templates,
       optionGroups: record.optionGroups.map((group) => readGroup(group, id)),
     }

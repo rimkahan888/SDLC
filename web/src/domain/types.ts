@@ -47,6 +47,22 @@ export type OptionGroup = {
   optionsFrom?: 'styles'
 }
 
+export type StageStep = {
+  id: string
+  title: string
+  text: string
+}
+
+export type StageText = {
+  id: string
+  text: string
+}
+
+export type StageQuote = {
+  text: string
+  source: string
+}
+
 export type Stage = {
   id: string
   order: number
@@ -54,6 +70,10 @@ export type Stage = {
   oneLiner: string
   goal: string
   keyArtifact: string
+  steps: StageStep[]
+  doneChecks: StageText[]
+  pitfalls: StageText[]
+  quotes: StageQuote[]
   templates: string[]
   optionGroups: OptionGroup[]
 }

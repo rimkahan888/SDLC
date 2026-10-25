@@ -25,6 +25,10 @@ function fixtureStages(): Stage[] {
       goal: 'Give the next agent enough context.',
       keyArtifact: 'intent.md',
       templates: ['intent'],
+      steps: [],
+      doneChecks: [],
+      pitfalls: [],
+      quotes: [],
       optionGroups: [
         {
           id: 'change-type',
@@ -77,6 +81,10 @@ function fixtureStages(): Stage[] {
       goal: 'Leave rules a later agent can follow.',
       keyArtifact: 'AGENTS.md and docs/',
       templates: ['agents'],
+      steps: [],
+      doneChecks: [],
+      pitfalls: [],
+      quotes: [],
       optionGroups: [
         {
           id: 'visual-style',
@@ -112,6 +120,10 @@ function fixtureStages(): Stage[] {
       goal: 'Name the checks before the work is called finished.',
       keyArtifact: 'definition of done',
       templates: ['definition-of-done'],
+      steps: [],
+      doneChecks: [],
+      pitfalls: [],
+      quotes: [],
       optionGroups: [
         {
           id: 'checks',

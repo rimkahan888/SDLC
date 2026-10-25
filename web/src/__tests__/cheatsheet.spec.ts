@@ -113,8 +113,13 @@ describe('cheatsheet overview logic', () => {
     expect(matchShortcut('ArrowUp', 'cheatsheet')).toBe('card-prev')
     expect(matchShortcut('ArrowRight', 'cheatsheet')).toBe('card-next')
     expect(matchShortcut('ArrowLeft', 'cheatsheet')).toBe('card-prev')
-    expect(matchShortcut('Enter', 'cheatsheet')).toBe('card-open')
-    expect(matchShortcut(' ', 'cheatsheet')).toBe('card-select')
+    expect(matchShortcut('Enter', 'cheatsheet')).toBe('panel-open')
+    expect(matchShortcut(' ', 'cheatsheet')).toBe('panel-open')
+    expect(matchShortcut('o', 'cheatsheet')).toBe('card-open')
+    expect(matchShortcut('O', 'cheatsheet')).toBe('card-open')
+    expect(matchShortcut('[', 'cheatsheet')).toBe('panel-prev')
+    expect(matchShortcut(']', 'cheatsheet')).toBe('panel-next')
+    expect(matchShortcut('[', 'prompt')).toBeNull()
     expect(matchShortcut('Home', 'cheatsheet')).toBe('card-first')
     expect(matchShortcut('End', 'cheatsheet')).toBe('card-last')
     expect(matchShortcut('6', 'cheatsheet')).toBe('stage-6')
@@ -189,7 +194,7 @@ describe('cheatsheet overview', () => {
     expect(design.text()).toContain('Visual')
   })
 
-  it('moves with j and k and opens the focused stage on Enter', async () => {
+  it('moves with j and k and opens the focused stage in the builder on o', async () => {
     const wrapper = mountApp()
     await flushPromises()
 
@@ -213,7 +218,7 @@ describe('cheatsheet overview', () => {
     await flushPromises()
     expect(useStageSelection().selectedStageId.value).toBe('maintain')
 
-    window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+    window.dispatchEvent(new KeyboardEvent('keydown', { key: 'o', bubbles: true }))
     await flushPromises()
     expect(router.currentRoute.value.path).toBe('/prompt/maintain')
   })
@@ -287,7 +292,115 @@ describe('cheatsheet overview', () => {
     expect(helpOpen.value).toBe(true)
     const dialog = wrapper.get('.shortcut-dialog')
     expect(dialog.text()).toContain('Move between stage cards')
+    expect(dialog.text()).toContain('Open the stage detail')
     expect(dialog.text()).toContain('Open the focused stage in the prompt builder')
+    expect(dialog.text()).toContain('Previous or next stage in the detail panel')
+    expect(dialog.text()).toContain('Close the shortcut list, or the stage detail')
     expect(dialog.text()).toContain('Copy the stage card')
+  })
+
+  it('opens the detail panel, switches stage, and closes on Esc', async () => {
+    const wrapper = mountApp()
+    await flushPromises()
+
+    expect(wrapper.find('[data-region="detail"]').exists()).toBe(false)
+    await wrapper.get('[data-stage-id="plan"]').trigger('click')
+    await vi.waitFor(() => {
+      expect(router.currentRoute.value.path).toBe('/stages/plan')
+    })
+    await flushPromises()
+
+    expect(router.currentRoute.value.path).toBe('/stages/plan')
+    const detail = wrapper.get('[data-region="detail"]')
+    expect(detail.text()).toContain('Give the next agent enough context that it does not guess.')
+    expect(detail.text()).toContain('intent.md')
+    expect(detail.text()).not.toContain('Describe the change, the constraints, and the official docs before any code.')
+    expect(detail.get('.detail-kicker').text()).toContain('Plan')
+    expect(detail.find('h1, h2').exists()).toBe(false)
+    expect(detail.get('a[href*="prompt/plan"]').text()).toContain('Open in prompt builder')
+    expect(detail.text()).toContain('Describe the change')
+
+    await detail.get('[data-tab="documents"]').trigger('click')
+    await flushPromises()
+    expect(detail.get('[data-copy="doc:intent"]').text()).toContain('Intent')
+    expect(detail.get('[data-copy="doc:intent"]').text()).toContain('intent.md')
+    await detail.get('[data-copy="doc:intent"] a').trigger('click')
+    await flushPromises()
+    expect(router.currentRoute.value.path).toBe('/templates/intent')
+    expect(detail.get('[data-copy="doc:intent"] a').attributes('aria-current')).toBe('true')
+
+    await detail.get('[data-tab="options"]').trigger('click')
+    await flushPromises()
+    expect(detail.text()).toContain('Change type')
+    expect(detail.text()).toContain('What kind of work is this?')
+    expect(detail.text()).toContain('Feature')
+    expect(detail.text()).toContain('Add something to an existing project.')
+    expect(detail.text()).toContain('One choice')
+    expect(detail.text()).toContain('Required')
+
+    await detail.get('[data-tab="pitfalls"]').trigger('click')
+    await flushPromises()
+    expect(detail.text()).toContain('Leaving the agent to guess an API')
+
+    window.dispatchEvent(new KeyboardEvent('keydown', { key: ']', bubbles: true }))
+    await flushPromises()
+    expect(router.currentRoute.value.path).toBe('/stages/design')
+    expect(wrapper.get('.detail-kicker').text()).toContain('Design')
+
+    window.dispatchEvent(new KeyboardEvent('keydown', { key: '[', bubbles: true }))
+    await flushPromises()
+    expect(router.currentRoute.value.path).toBe('/stages/plan')
+
+    await detail.get('[data-tab="steps"]').trigger('click')
+    await flushPromises()
+    const steps = detail.get('[data-tab="steps"]')
+    steps.element.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }))
+    await flushPromises()
+    expect(detail.get('[data-tab="done"]').attributes('aria-selected')).toBe('true')
+    expect(router.currentRoute.value.path).toBe('/stages/plan')
+
+    window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }))
+    await flushPromises()
+    expect(router.currentRoute.value.path).toBe('/')
+    expect(wrapper.find('[data-region="detail"]').exists()).toBe(false)
+  })
+
+  it('opens the panel from the keyboard and copies a step', async () => {
+    const writeText = vi.fn().mockResolvedValue(undefined)
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: { writeText },
+    })
+    const wrapper = mountApp()
+    await flushPromises()
+
+    window.dispatchEvent(new KeyboardEvent('keydown', { key: 'j', bubbles: true }))
+    window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+    await flushPromises()
+    expect(router.currentRoute.value.path).toBe('/stages/plan')
+
+    window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }))
+    await flushPromises()
+    window.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }))
+    await flushPromises()
+    expect(router.currentRoute.value.path).toBe('/stages/plan')
+
+    await wrapper.get('[data-copy="step:describe"]').trigger('dblclick')
+    await flushPromises()
+    expect(writeText).toHaveBeenCalledWith(
+      'Describe the change\n\nWrite what is changing, who it is for, and the constraints.',
+    )
+    expect(wrapper.get('[data-copy="step:describe"] .tick').text()).toContain('Copied')
+    expect(wrapper.get('.toast').text()).toBe('Copied')
+  })
+
+  it('names a missing stage instead of rendering a blank panel', async () => {
+    const wrapper = mountApp()
+    await flushPromises()
+    await router.push('/stages/nope')
+    await flushPromises()
+    const detail = wrapper.get('[data-region="detail"]')
+    expect(detail.text()).toContain('Error')
+    expect(detail.text()).toContain("No stage with id 'nope'.")
   })
 })
