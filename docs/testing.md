@@ -8,7 +8,7 @@ A green run shows the build matched the plan. It does not show the plan was the 
 
 | Suite | Proves | Docs |
 | --- | --- | --- |
-| xUnit | The API routes, the status codes, and content validation (a bad stage, template, style, or prompt shell fails). | [xUnit v3](https://xunit.net/docs/getting-started/v3/getting-started) |
+| xUnit | The API routes, the status codes, and content validation (a bad stage, template, style, or prompt shell fails). The test project targets `net10.0`. .NET 8 support ends 10 November 2026. | [xUnit v3](https://xunit.net/docs/getting-started/v3/getting-started) |
 | Vitest | Pure functions and Vue components: prompt assembly, style-token mapping, copy-text builders, slider clamping, shortcut matching. | [Vitest](https://vitest.dev/guide/) |
 | Playwright | The page at 540px and at 1440px. Screenshots of the cheatsheet and of the prompt builder. | [Playwright](https://playwright.dev/docs/intro), [viewports](https://playwright.dev/docs/emulation), [screenshots](https://playwright.dev/docs/screenshots) |
 

@@ -47,7 +47,7 @@ Screenshots join a later change, once a screen exists.
 ## Constraints
 
 - Web: Vue 3, TypeScript, Vite, and Vue Router. The Node version has to satisfy both the [Vue quick start](https://vuejs.org/guide/quick-start.html) and [Playwright](https://playwright.dev/docs/intro).
-- API: ASP.NET Core minimal APIs. The backlog pins .NET 8. See Open questions.
+- API: ASP.NET Core minimal APIs on .NET 10 (`net10.0`). .NET 8 support ends 10 November 2026, so the API targets the current LTS, supported until 14 November 2028.
 - Dark application chrome. The detail region defaults to half the page: the right half from 960px up, a bottom sheet below that.
 - Usable at about 540px wide.
 - Technical claims cite official docs, collected in [docs/references.md](docs/references.md).
@@ -61,7 +61,7 @@ The full set is [docs/references.md](docs/references.md). This plan depends on:
 - [Vue](https://vuejs.org/guide/introduction.html)
 - [Vite build and `base`](https://vite.dev/guide/build.html)
 - [Vue Router history modes](https://router.vuejs.org/guide/essentials/history-mode.html)
-- [ASP.NET Core minimal APIs](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/overview?view=aspnetcore-8.0)
+- [ASP.NET Core minimal APIs (.NET 10)](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/overview?view=aspnetcore-10.0)
 - [.NET support policy](https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core)
 - [What is GitHub Pages?](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages)
 - [Creating a GitHub Pages site](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site)
@@ -69,7 +69,7 @@ The full set is [docs/references.md](docs/references.md). This plan depends on:
 
 ## Open questions
 
-- .NET 8 reaches end of support on 10 November 2026. .NET 10 is the current LTS and is supported until 14 November 2028 ([support policy](https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core), [release schedule](https://learn.microsoft.com/en-us/dotnet/core/releases-and-support)). The backlog pins .NET 8. Confirm that pin, or move the scaffold to .NET 10, before the scaffold issue. This plan leaves the pin in place.
+None. The API target is .NET 10 (`net10.0`). .NET 8 support ends 10 November 2026 ([support policy](https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core), [release schedule](https://learn.microsoft.com/en-us/dotnet/core/releases-and-support)).
 
 ## Definition of done
 

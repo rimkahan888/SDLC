@@ -21,18 +21,18 @@ Official documentation for every technology this project uses. One line each on 
 
 | Technology | Official docs | Why it is here |
 | --- | --- | --- |
-| Minimal APIs | [Overview (.NET 8)](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/overview?view=aspnetcore-8.0) | The local API is a minimal API: routes declared on `WebApplication`, no controllers. |
-| CORS | [Enable CORS (.NET 8)](https://learn.microsoft.com/en-us/aspnet/core/security/cors?view=aspnetcore-8.0) | Dev-only policy so a browser pointed straight at the API still works. |
-| Problem details | [Error handling (.NET 8)](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling?view=aspnetcore-8.0) | Unknown ids return a problem-details body. |
+| Minimal APIs | [Overview (.NET 10)](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/overview?view=aspnetcore-10.0) | The local API is a minimal API on `net10.0`: routes declared on `WebApplication`, no controllers. |
+| CORS | [Enable CORS (.NET 10)](https://learn.microsoft.com/en-us/aspnet/core/security/cors?view=aspnetcore-10.0) | Dev-only policy so a browser pointed straight at the API still works. |
+| Problem details | [Error handling (.NET 10)](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling?view=aspnetcore-10.0) | Unknown ids return a problem-details body. |
 | JSON names | [Customize properties](https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/customize-properties) | Responses use camelCase. Set `JsonNamingPolicy.CamelCase` explicitly. |
-| .NET support | [Support policy](https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core) | .NET 8 support ends 10 November 2026. .NET 10 LTS runs until 14 November 2028. |
-| Release dates | [Releases and support](https://learn.microsoft.com/en-us/dotnet/core/releases-and-support) | Same dates, on the docs site. The open question in [intent.md](../intent.md) points here. |
+| .NET support | [Support policy](https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core) | .NET 8 support ends 10 November 2026, which is why the API targets .NET 10. .NET 10 LTS runs until 14 November 2028. |
+| Release dates | [Releases and support](https://learn.microsoft.com/en-us/dotnet/core/releases-and-support) | Same dates, on the docs site. The decision is recorded in [intent.md](../intent.md) and [architecture.md](architecture.md). |
 
 ## Tests
 
 | Technology | Official docs | Why it is here |
 | --- | --- | --- |
-| xUnit v3 | [Getting started](https://xunit.net/docs/getting-started/v3/getting-started) | API and content-validation tests. The v3 guide targets .NET 8 or later. |
+| xUnit v3 | [Getting started](https://xunit.net/docs/getting-started/v3/getting-started) | API and content-validation tests. The v3 guide targets .NET 8 or later. This repo's test project targets `net10.0`. |
 | xUnit home | [xunit.net](https://xunit.net/) | Project home for the runner named in the backlog. |
 | Vitest | [Guide](https://vitest.dev/guide/) | Vue component and pure-function tests. Reuses the Vite config. |
 | Playwright | [Intro](https://playwright.dev/docs/intro) | End-to-end tests. States its own Node support. |

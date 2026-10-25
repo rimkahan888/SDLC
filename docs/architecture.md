@@ -43,7 +43,7 @@ The diagram uses the [Mermaid fence GitHub renders](https://docs.github.com/en/g
 
 6. **Project-site base path.** A project site is served at `https://<owner>.github.io/<repository>/`. This repository is `SDLC`, so the production build uses `vite build --base=/SDLC/` ([public base path](https://vite.dev/guide/build.html)). Dev keeps base `/`. Fetches for exported JSON use `import.meta.env.BASE_URL`, which is replaced at build time. If the live path ever differs, change `base` and leave component code alone.
 
-7. **.NET 8, pending one confirmation.** The backlog pins .NET 8 minimal APIs ([overview](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/overview?view=aspnetcore-8.0)). Support ends 10 November 2026; .NET 10 LTS is supported until 14 November 2028 ([policy](https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core)). The scaffold waits for the answer in [intent.md](../intent.md). This spec does not silently retarget.
+7. **.NET 10 (`net10.0`).** The API project and the xUnit project both set `<TargetFramework>net10.0</TargetFramework>`. .NET 8 support ends 10 November 2026, so the scaffold uses the current LTS, supported until 14 November 2028 ([support policy](https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core), [minimal APIs on .NET 10](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/overview?view=aspnetcore-10.0)). There is no separate ADR file. This decision is the record.
 
 ## How the web app reads content
 
@@ -112,7 +112,7 @@ Startup validation covers stages, templates, styles, and the prompt shell. Failu
 
 The build order after this plan is accepted:
 
-1. Scaffold `web/`, `api/`, `SDLC.sln`, `.editorconfig`, and `.gitignore`. Confirm the .NET pin first.
+1. Scaffold `web/`, `api/`, `SDLC.sln`, `.editorconfig`, and `.gitignore`. API and test projects target `net10.0`.
 2. Stage content, including option groups and the prompt shell.
 3. Prompt builder UI, reading that content, with copy, download, reset, URL, and keyboard use at 540px.
 4. Visual style picker: the 20 style files and the mock cards, wired as the Design visual group.

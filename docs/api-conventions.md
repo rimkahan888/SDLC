@@ -1,6 +1,6 @@
 # API conventions
 
-The local read API. Contract for the minimal API and for the JSON files the static export writes. The shapes are defined in [content-model.md](content-model.md). How the two outputs stay in step is [architecture.md](architecture.md).
+The local read API. Contract for the minimal API and for the JSON files the static export writes. The project targets `net10.0`. .NET 8 support ends 10 November 2026. The shapes are defined in [content-model.md](content-model.md). How the two outputs stay in step is [architecture.md](architecture.md).
 
 ## Routes
 
@@ -27,7 +27,7 @@ There is no write route, no auth, and no paging. Six stages, six templates, and 
 
 ## Errors
 
-Unknown ids use [problem details](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling?view=aspnetcore-8.0):
+Unknown ids use [problem details](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling?view=aspnetcore-10.0):
 
 ```json
 {
@@ -46,7 +46,7 @@ Invalid content does not become a 500 at request time. The process validates at 
 
 The published site never calls this API. In dev, Vite proxies `/api` to `http://localhost:5080`, so the browser stays on the Vite origin ([server proxy](https://vite.dev/config/server-options.html#server-proxy)).
 
-Also add a CORS policy named `dev`, enabled only when the host environment is Development, allowing `http://localhost:5173`. That covers a browser pointed directly at Kestrel. Policy setup is the [CORS middleware](https://learn.microsoft.com/en-us/aspnet/core/security/cors?view=aspnetcore-8.0).
+Also add a CORS policy named `dev`, enabled only when the host environment is Development, allowing `http://localhost:5173`. That covers a browser pointed directly at Kestrel. Policy setup is the [CORS middleware](https://learn.microsoft.com/en-us/aspnet/core/security/cors?view=aspnetcore-10.0).
 
 ## Export
 

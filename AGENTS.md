@@ -5,7 +5,7 @@ Standing rules for this repository. Read [intent.md](intent.md) first, then this
 ## Stack
 
 - Web: Vue 3, TypeScript, Vite, Vue Router, in `web/`. Scaffold with `npm create vue@latest` and take TypeScript, Vue Router, Vitest, and Playwright. Node must satisfy the [Vue quick start](https://vuejs.org/guide/quick-start.html) and [Playwright](https://playwright.dev/docs/intro).
-- API: ASP.NET Core minimal APIs in `api/`, pinned to .NET 8 until the open question in [intent.md](intent.md) is answered. Tests with xUnit v3.
+- API: ASP.NET Core minimal APIs in `api/`, target framework `net10.0`. .NET 8 support ends 10 November 2026. xUnit v3 tests use `net10.0` as well.
 - Official links live in [docs/references.md](docs/references.md). Paste a link before relying on an API. Do not cite blog posts for technical claims.
 
 ## Repository layout

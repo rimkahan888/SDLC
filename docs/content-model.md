@@ -288,8 +288,8 @@ When you are unsure, stop and ask. Use the official documentation named above.
         {
           "id": "minimal-apis",
           "label": "ASP.NET Core minimal APIs",
-          "detail": "The .NET 8 overview.",
-          "promptFragment": "Official docs: ASP.NET Core minimal APIs — https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/overview?view=aspnetcore-8.0"
+          "detail": "The .NET 10 overview.",
+          "promptFragment": "Official docs: ASP.NET Core minimal APIs — https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/overview?view=aspnetcore-10.0"
         },
         {
           "id": "playwright",

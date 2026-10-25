@@ -2,7 +2,7 @@
 
 A cheatsheet and a prompt builder for an AI-native software lifecycle. The page walks six stages, plan through maintain, and shows the document each stage needs. The prompt builder asks for a choice at each stage, then assembles one prompt to paste into Cursor.
 
-The repository is built with the same lifecycle it teaches. This change is Plan and Design: the intent, the standing rules, and the specs. The Vue app and the C# API wait until the plan is accepted.
+The repository is built with the same lifecycle it teaches. This change is Plan and Design: the intent, the standing rules, and the specs. The Vue app and the C# API wait until the plan is accepted. The API targets .NET 10 (`net10.0`). .NET 8 support ends 10 November 2026.
 
 ## The six stages
 
