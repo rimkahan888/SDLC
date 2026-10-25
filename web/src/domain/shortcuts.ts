@@ -13,6 +13,12 @@ export type ShortcutAction =
   | 'option-first'
   | 'option-last'
   | 'option-toggle'
+  | 'card-prev'
+  | 'card-next'
+  | 'card-first'
+  | 'card-last'
+  | 'card-open'
+  | 'card-select'
   | `stage-${number}`
 
 export type ShortcutEntry = {
@@ -38,6 +44,12 @@ export const promptShortcuts: readonly ShortcutEntry[] = [
 export const cheatsheetShortcuts: readonly ShortcutEntry[] = [
   { keys: '?', action: 'Toggle the shortcut list' },
   { keys: 'Esc', action: 'Close the shortcut list' },
+  { keys: '1–6', action: 'Focus that stage' },
+  { keys: 'Arrows, j, k', action: 'Move between stage cards' },
+  { keys: 'Enter', action: 'Open the focused stage in the prompt builder' },
+  { keys: 'Space', action: 'Select the focused stage' },
+  { keys: 'Home / End', action: 'First or last stage' },
+  { keys: 'Double-click', action: 'Copy the stage card' },
 ]
 
 export function shortcutsFor(view: AppView): readonly ShortcutEntry[] {
@@ -55,11 +67,22 @@ export function isTypingTarget(target: EventTarget | null): boolean {
   return target.isContentEditable
 }
 
+function matchCheatsheet(key: string): ShortcutAction | null {
+  if (/^[1-6]$/.test(key)) return `stage-${Number(key)}`
+  if (key === 'ArrowLeft' || key === 'ArrowUp' || key === 'k' || key === 'K') return 'card-prev'
+  if (key === 'ArrowRight' || key === 'ArrowDown' || key === 'j' || key === 'J') return 'card-next'
+  if (key === 'Home') return 'card-first'
+  if (key === 'End') return 'card-last'
+  if (key === 'Enter') return 'card-open'
+  if (key === ' ') return 'card-select'
+  return null
+}
+
 export function matchShortcut(key: string, view: AppView, shiftKey = false): ShortcutAction | null {
   // Some layouts report Shift+/ as "/" with shift held. The overlay key is "?".
   if (key === '?' || (shiftKey && key === '/')) return 'help'
   if (key === 'Escape') return 'close'
-  if (view === 'cheatsheet') return null
+  if (view === 'cheatsheet') return matchCheatsheet(key)
 
   if (/^[1-6]$/.test(key)) return `stage-${Number(key)}`
   if (key === 'ArrowLeft' || key === 'ArrowUp') return 'option-prev'

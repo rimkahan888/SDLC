@@ -19,16 +19,14 @@ import {
   withoutStageSkipped,
 } from '@/domain/choices'
 import { downloadMarkdown } from '@/domain/download'
-import { cardScaleRange, panelRatioRange } from '@/domain/preferences'
 import type { OptionGroup as OptionGroupModel, PromptOption, Stage, TemplateFile } from '@/domain/types'
 import { showError, showToast, writeClipboard } from '@/feedback'
-import { useLayout } from '@/composables/useLayout'
 import { usePromptChoices } from '@/composables/usePromptChoices'
+import SizeSliders from '@/components/SizeSliders.vue'
 import { registerPromptActions } from '@/promptActions'
 
 const route = useRoute()
 const router = useRouter()
-const { panelRatio, cardScale } = useLayout()
 const { choices, assembled, replaceChoices, resetStoredChoices } = usePromptChoices()
 
 const panelOpen = ref(true)
@@ -247,28 +245,7 @@ onBeforeUnmount(() => {
             <span class="step-name">{{ stage.name }}</span>
           </button>
         </nav>
-        <div class="sliders">
-          <label class="slider">
-            Panel size
-            <input
-              v-model.number="panelRatio"
-              type="range"
-              :min="panelRatioRange.min"
-              :max="panelRatioRange.max"
-              step="0.01"
-            />
-          </label>
-          <label class="slider">
-            Card size
-            <input
-              v-model.number="cardScale"
-              type="range"
-              :min="cardScaleRange.min"
-              :max="cardScaleRange.max"
-              step="0.01"
-            />
-          </label>
-        </div>
+        <SizeSliders />
       </div>
 
       <p v-if="!contentState.ready && !contentState.error" class="stage-line">Loading content.</p>

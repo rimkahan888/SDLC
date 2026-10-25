@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import PlaceholderView from '@/views/PlaceholderView.vue'
+import CheatsheetView from '@/views/CheatsheetView.vue'
 import PromptBuilderView from '@/views/PromptBuilderView.vue'
 
 const router = createRouter({
@@ -8,7 +8,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'cheatsheet',
-      component: PlaceholderView,
+      component: CheatsheetView,
     },
     {
       path: '/prompt/:stageId?',
