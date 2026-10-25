@@ -84,6 +84,17 @@ export function normalizeOptionIds(group: OptionGroup, ids: readonly string[]): 
     const match = ids.find((id) => known.has(id))
     return match ? [match] : []
   }
+  // A visual blend keeps pick order. The first id is the primary style.
+  if (group.presentation === 'visual') {
+    const ordered: string[] = []
+    const seen = new Set<string>()
+    for (const id of ids) {
+      if (!known.has(id) || seen.has(id)) continue
+      seen.add(id)
+      ordered.push(id)
+    }
+    return ordered
+  }
   const selected = new Set(ids.filter((id) => known.has(id)))
   return group.options.filter((option) => selected.has(option.id)).map((option) => option.id)
 }

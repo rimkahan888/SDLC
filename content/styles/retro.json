@@ -1,0 +1,19 @@
+{
+  "id": "retro",
+  "name": "Retro",
+  "description": "Warm 1970s color, a rounded frame, and a hard shadow.",
+  "bestFor": "Menus, music, and products that should feel analog and sun-faded.",
+  "tokens": {
+    "background": "linear-gradient(180deg, #f6c27a 0%, #e07a32 100%)",
+    "surface": "#f3e0c0",
+    "text": "#4a2c12",
+    "muted": "#704628",
+    "accent": "#c4481d",
+    "border": "3px solid #4a2c12",
+    "radius": "14px",
+    "shadow": "4px 4px 0 #4a2c12",
+    "font": "'Palatino Linotype', Palatino, Georgia, serif",
+    "backdrop": "none"
+  },
+  "promptFragment": "Visual style: Retro. Use cream, burnt orange, and brown, a warm serif, 14px corners, and a hard offset shadow in the same brown. Borders are thick and solid. Avoid neon, pure gray, a thin modern sans, and glass. Keep text readable: meet WCAG 2.2 AA contrast (4.5:1) against the surface the text actually sits on. https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+}

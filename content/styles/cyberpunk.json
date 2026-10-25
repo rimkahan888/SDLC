@@ -1,0 +1,19 @@
+{
+  "id": "cyberpunk",
+  "name": "Cyberpunk",
+  "description": "Black ground, magenta and acid green, and a terminal face.",
+  "bestFor": "Night interfaces that should feel like a rainy alley terminal.",
+  "tokens": {
+    "background": "#07070d",
+    "surface": "#0d0d16",
+    "text": "#f5f5ff",
+    "muted": "#ff7ad9",
+    "accent": "#d6ff3f",
+    "border": "1px solid #ff2bd6",
+    "radius": "0px",
+    "shadow": "0 0 0 1px #00f0ff, 0 0 14px rgba(255, 43, 214, 0.55)",
+    "font": "'Courier New', Courier, monospace",
+    "backdrop": "none"
+  },
+  "promptFragment": "Visual style: Cyberpunk. Use a black ground, magenta and cyan neon edges, an acid-green action color, and a monospace face. Corners are square. Shadows are glows, not soft daylight. Avoid pastel paper, serif editorial type, and large airy radii. Keep text readable: meet WCAG 2.2 AA contrast (4.5:1) against the surface the text actually sits on. https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+}

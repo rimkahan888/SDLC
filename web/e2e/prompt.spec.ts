@@ -46,8 +46,7 @@ test('prompt builder walks the stages at both widths', async ({ page }) => {
   await expect(page.locator('.prompt-text')).toContainText('This is a feature on an existing project')
 
   await page.getByRole('button', { name: 'Next', exact: true }).click()
-  await expect(page.getByRole('note', { name: 'Visual style placeholder' })).toBeVisible()
-  await expect(page.getByText('The quick look')).toHaveCount(0)
+  await expect(page.locator('.style-pick')).toHaveCount(20)
 
   await page.getByRole('radiogroup', { name: 'Stack' }).getByRole('radio', { name: /Vue and C#/ }).click()
   await page.getByRole('radiogroup', { name: 'AGENTS.md' }).getByRole('radio', { name: /existing AGENTS.md/ }).click()
@@ -141,7 +140,8 @@ test('prompt builder walks the stages at both widths', async ({ page }) => {
   const screenshotDir = '/opt/cursor/artifacts/screenshots'
   fs.mkdirSync(screenshotDir, { recursive: true })
   await page.keyboard.press('2')
-  await expect(page.getByRole('note', { name: 'Visual style placeholder' })).toBeVisible()
+  await expect(page.locator('.style-pick')).toHaveCount(20)
+  await page.locator('.style-grid').evaluate((element) => element.scrollIntoView({ block: 'start' }))
   await page.screenshot({
     path: path.join(screenshotDir, `prompt-builder-${width}.png`),
     fullPage: false,
@@ -204,4 +204,140 @@ test('double-click copies an option card', async ({ page }) => {
   await expect(page.locator('.toast')).toHaveText('Copied')
   const text = await page.evaluate(() => navigator.clipboard.readText())
   expect(text).toBe('Feature\n\nAdd something to an existing project.')
+})
+
+test('visual style cards blend into the prompt', async ({ page }) => {
+  test.setTimeout(60_000)
+  const viewport = page.viewportSize()
+  expect(viewport).toBeTruthy()
+  const width = viewport?.width ?? 0
+  const height = viewport?.height ?? 0
+
+  await page.goto('#/prompt/design')
+  const cards = page.locator('.style-pick')
+  await expect(cards).toHaveCount(20)
+  await expect(page.getByRole('note', { name: 'Visual style placeholder' })).toHaveCount(0)
+  await expect(page.locator('.style-grid')).toBeVisible()
+  await expectNoHorizontalScroll(page)
+
+  const first = await cards.nth(0).boundingBox()
+  const second = await cards.nth(1).boundingBox()
+  const third = await cards.nth(2).boundingBox()
+  expect(first && second && third).toBeTruthy()
+  expect(second!.x).toBeGreaterThan(first!.x + first!.width * 0.4)
+  expect(Math.abs(second!.y - first!.y)).toBeLessThan(12)
+  expect(third!.y).toBeGreaterThan(first!.y + first!.height * 0.45)
+
+  await cards.nth(0).focus()
+  await page.keyboard.press('ArrowRight')
+  await expect(cards.nth(1)).toBeFocused()
+  await page.keyboard.press('End')
+  await expect(cards.nth(19)).toBeFocused()
+  await page.keyboard.press('Space')
+  await expect(cards.nth(19)).toHaveAttribute('aria-pressed', 'true')
+  await page.keyboard.press('Space')
+  await expect(cards.nth(19)).toHaveAttribute('aria-pressed', 'false')
+  await page.keyboard.press('Home')
+  await expect(cards.nth(0)).toBeFocused()
+  await page.keyboard.press('ArrowDown')
+  await expect(cards.nth(1)).toBeFocused()
+  await page.keyboard.press('Enter')
+  await expect(cards.nth(1)).toHaveAttribute('aria-pressed', 'true')
+  await page.keyboard.press('Enter')
+  await expect(cards.nth(1)).toHaveAttribute('aria-pressed', 'false')
+
+  await page.keyboard.press('Shift+/')
+  const dialog = page.getByRole('dialog')
+  await expect(dialog).toContainText('Copy the style description')
+  await expect(dialog).toContainText('Arrow keys')
+  await page.keyboard.press('Escape')
+  await expect(dialog).toBeHidden()
+
+  const editorial = page.locator('.style-pick[data-style-id="editorial"]')
+  const minimal = page.locator('.style-pick[data-style-id="minimalism"]')
+  await editorial.click()
+  await minimal.click()
+  await expect(editorial).toHaveAttribute('aria-pressed', 'true')
+  await expect(minimal).toHaveAttribute('aria-pressed', 'true')
+  await expect(editorial).toContainText('Primary')
+  await expect(minimal).toContainText('Accent')
+
+  const prompt = page.locator('.prompt-text')
+  await expect(prompt).toContainText('Visual style: Editorial')
+  await expect(prompt).toContainText('Visual style: Minimalism')
+  await expect(prompt).toContainText('primary system')
+  await expect(prompt).toContainText('accent')
+  await expect(prompt).not.toContainText('Visual style: Cyberpunk')
+  const editorialAt = (await prompt.innerText()).indexOf('Visual style: Editorial')
+  const minimalAt = (await prompt.innerText()).indexOf('Visual style: Minimalism')
+  expect(editorialAt).toBeGreaterThan(-1)
+  expect(editorialAt).toBeLessThan(minimalAt)
+
+  await editorial.hover()
+  const preview = page.getByRole('region', { name: 'Style preview' })
+  await expect(preview).toBeVisible()
+  await expect(preview).toContainText('Visual style: Editorial')
+  await expect(preview.locator('.mock')).toBeVisible()
+
+  const detail = page.locator('[data-region="detail"]')
+  const detailBox = await detail.boundingBox()
+  expect(detailBox).toBeTruthy()
+  if (width >= 960) {
+    expect(detailBox!.width).toBeGreaterThan(width * 0.45)
+    expect(detailBox!.width).toBeLessThan(width * 0.55)
+  } else {
+    expect(detailBox!.height).toBeGreaterThan(height * 0.45)
+    expect(detailBox!.height).toBeLessThan(height * 0.55)
+  }
+  await expectNoHorizontalScroll(page)
+
+  const glass = page.locator('.style-pick[data-style-id="glassmorphism"]')
+  await glass.dblclick()
+  await expect(page.locator('.toast')).toHaveText('Copied')
+  await expect(glass.locator('.tick')).toContainText('Copied')
+  const copied = await page.evaluate(() => navigator.clipboard.readText())
+  expect(copied).toBe(
+    'Translucent panels over a saturated background, with blur, a hairline light border, and a soft shadow.',
+  )
+  await expect(glass).toHaveAttribute('aria-pressed', 'false')
+  await expect(glass.locator('.tick')).toHaveCount(0)
+
+  await page.locator('.style-grid').evaluate((element) => element.scrollIntoView({ block: 'start' }))
+  const shotDir = '/opt/cursor/artifacts/screenshots'
+  fs.mkdirSync(shotDir, { recursive: true })
+  await page.screenshot({
+    path: path.join(shotDir, `style-blend-${width}.png`),
+    fullPage: false,
+  })
+  if (width === 1440) {
+    fs.mkdirSync('/opt/cursor/artifacts', { recursive: true })
+    fs.writeFileSync('/opt/cursor/artifacts/style-blend-prompt.md', await prompt.innerText())
+  }
+
+  await page.addStyleTag({
+    content: `
+      html, body, #app, .page, .workspace, .work {
+        height: auto !important;
+        overflow: visible !important;
+      }
+      .detail { display: none !important; }
+    `,
+  })
+  await page.screenshot({
+    path: path.join(shotDir, `style-grid-${width}.png`),
+    fullPage: true,
+  })
+})
+
+test('a denied clipboard on a style card shows a red error', async ({ page }) => {
+  await page.goto('#/prompt/design')
+  await page.evaluate(() => {
+    navigator.clipboard.writeText = () =>
+      Promise.reject(new DOMException('Write permission denied.', 'NotAllowedError'))
+  })
+  await page.locator('.style-pick[data-style-id="editorial"]').dblclick()
+  const toast = page.locator('.toast')
+  await expect(toast).toContainText('Error')
+  await expect(toast).toContainText('Write permission denied.')
+  await expect(page.locator('.style-pick[data-style-id="editorial"] .tick')).toHaveCount(0)
 })

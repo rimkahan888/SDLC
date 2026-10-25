@@ -7,8 +7,8 @@ public sealed record ContentIssue(string Path, string Reason);
 
 /// <summary>
 /// Checks <c>content/</c> and <c>templates/</c> against the content model.
-/// Style files are checked only when <c>content/styles</c> exists. Until then,
-/// a group with <c>optionsFrom: "styles"</c> is a reference and is not expanded.
+/// The style catalog is required. <c>content/styles</c> must contain the 20 styles
+/// in catalog order. A group with <c>optionsFrom: "styles"</c> expands against that catalog.
 /// </summary>
 public static class ContentValidator
 {
@@ -730,6 +730,12 @@ public static class ContentValidator
         var directory = Path.Combine(root, "content", "styles");
         if (!Directory.Exists(directory))
         {
+            issues.Add(new ContentIssue("content/styles", "content/styles is missing."));
+            foreach (var id in RequiredStyleIds)
+            {
+                issues.Add(new ContentIssue($"content/styles/{id}.json", $"Required style id '{id}' is missing."));
+            }
+
             return null;
         }
 

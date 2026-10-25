@@ -4,7 +4,7 @@ A cheatsheet and a prompt builder for an AI-native software lifecycle. The page 
 
 The repository is built with the same lifecycle it teaches. The plan and the design are in the docs below. This scaffold is the Vue app in `web/` and the ASP.NET Core minimal API in `api/`. Both target the stack in [AGENTS.md](AGENTS.md). The API uses `net10.0`. .NET 8 support ends 10 November 2026.
 
-Stage content and the prompt shell are in [`content/`](content/stages/plan.json). The prompt builder reads that content. The visual style cards are a later change.
+Stage content, the prompt shell, and the visual styles are in [`content/`](content/stages/plan.json). The prompt builder reads that content. Design shows one live mock card per style.
 
 ## The six stages
 
@@ -20,7 +20,7 @@ Stage content and the prompt shell are in [`content/`](content/stages/plan.json)
 ## What the page will do
 
 - **Cheatsheet.** The six stages as cards, with steps, done-checks, pitfalls, and templates to copy.
-- **Prompt builder.** A guided pass through the same stages, at `#/prompt`. Options live in `content/`. Copy, download, reset, or share the assembled prompt. The Design visual-style group is a placeholder until the style cards land.
+- **Prompt builder.** A guided pass through the same stages, at `#/prompt`. Options live in `content/`. Copy, download, reset, or share the assembled prompt. At Design, the visual style group is a grid of live HTML and CSS mock cards.
 
 ## Docs
 

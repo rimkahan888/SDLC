@@ -1,0 +1,19 @@
+{
+  "id": "graffiti",
+  "name": "Graffiti",
+  "description": "A black wall, a white contour, and a tag's hard color hit.",
+  "bestFor": "Street-styled pages that should feel sprayed, not typeset.",
+  "tokens": {
+    "background": "repeating-linear-gradient(0deg, #161616 0 14px, #2a2a2a 14px 16px)",
+    "surface": "#111111",
+    "text": "#f4f4f4",
+    "muted": "#ffe14a",
+    "accent": "#c0006a",
+    "border": "3px solid #f4f4f4",
+    "radius": "12px",
+    "shadow": "4px 4px 0 #00e5ff",
+    "font": "Impact, 'Arial Black', sans-serif",
+    "backdrop": "none"
+  },
+  "promptFragment": "Visual style: Graffiti. Use a black wall, a white contour, magenta and cyan hits, and a heavy condensed face. The shadow is a hard offset in a second bright color, like a sticker on brick. Avoid quiet paper, a thin serif body, and soft corporate shadows. Keep text readable: meet WCAG 2.2 AA contrast (4.5:1) against the surface the text actually sits on. https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+}

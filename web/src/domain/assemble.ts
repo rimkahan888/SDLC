@@ -1,5 +1,15 @@
 import { effectiveSelection } from './choices'
-import type { AssembledPrompt, PromptChoices, PromptShell, Stage, TemplateFile } from './types'
+import type { AssembledPrompt, OptionGroup, PromptChoices, PromptShell, Stage, TemplateFile } from './types'
+
+export const visualBlendLead =
+  'Blend these visual styles. The first style is the primary system: keep its layout, type, and spacing. Each later style is an accent: borrow its color, texture, or shape, and do not let an accent replace the primary layout.'
+
+function joinFragments(group: OptionGroup, parts: readonly string[]): string {
+  if (group.presentation === 'visual' && parts.length > 1) {
+    return [visualBlendLead, ...parts].join('\n\n')
+  }
+  return parts.join('\n\n')
+}
 
 function fillOnce(template: string, token: string, value: string): string {
   const index = template.indexOf(token)
@@ -21,13 +31,15 @@ export function assemblePrompt(
     const fragments: string[] = []
     for (const group of stage.optionGroups) {
       const ids = effectiveSelection(stage, group, choices)
-      if (ids.length === 0) continue
+      const parts: string[] = []
       for (const id of ids) {
         const option = group.options.find((item) => item.id === id)
         if (!option) continue
-        fragments.push(option.promptFragment)
+        parts.push(option.promptFragment)
         if (option.starterFiles) starterIds.push(...option.starterFiles)
       }
+      if (parts.length === 0) continue
+      fragments.push(joinFragments(group, parts))
     }
     if (fragments.length === 0) continue
 

@@ -85,6 +85,7 @@ Copy uses [`navigator.clipboard.writeText`](https://developer.mozilla.org/en-US/
 | --- | --- |
 | Double-click a stage card | Name, blank line, one-liner, blank line, `Key artifact: …` |
 | Double-click a step | Title, blank line, step text |
+| Double-click a style card | The style's description |
 | Copy on the template viewer | The template markdown |
 | Copy on the prompt builder | The assembled prompt |
 | Share on the prompt builder | The page URL |
@@ -150,14 +151,16 @@ Fixed sample copy, so the cards differ by CSS:
     <p class="mock-kicker">Glassmorphism</p>
     <h3>The quick look</h3>
     <p>A sentence of body text.</p>
-    <button type="button">Action</button>
+    <span class="mock-action">Action</span>
   </div>
 </article>
 ```
 
-The component sets `--mock-bg`, `--mock-surface`, `--mock-text`, `--mock-muted`, `--mock-accent`, `--mock-border`, `--mock-radius`, `--mock-shadow`, `--mock-font`, and `--mock-backdrop` from `tokens`. The card uses those variables for background, color, font, border, radius, shadow, and `backdrop-filter`. Token meanings are in [content-model.md](content-model.md).
+The action is a span. The card around the mock is the button, and a button cannot contain another button. The component sets `--mock-bg`, `--mock-surface`, `--mock-text`, `--mock-muted`, `--mock-accent`, `--mock-border`, `--mock-radius`, `--mock-shadow`, `--mock-font`, and `--mock-backdrop` from `tokens`. The card uses those variables for background, color, font, border, radius, shadow, and `backdrop-filter`. Token meanings are in [content-model.md](content-model.md).
 
-At 540px the cards are one column. From 720px of questions-pane width, two columns. The selected card has a 2px `--accent` outline and `aria-pressed="true"`. Multi-select allows more than one.
+At about 540px the grid is two columns. It drops to one column when the questions pane is too narrow for two. From 720px of questions-pane width it stays at two columns. The selected card has a 2px `--accent` outline and `aria-pressed="true"`. Multi-select allows more than one. The first selected style is marked Primary and each later style is marked Accent.
+
+Hovering or focusing a card, or having one selected, shows a larger copy of the same mock in the detail region, above the assembled prompt, with that style's prompt fragment. Double-click copies the style description. The `?` overlay lists that gesture with the keys.
 
 `bestFor` sits under the card in chrome text (`--muted` on `--surface`), so it stays readable when the mock itself is decorative.
 

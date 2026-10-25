@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { promptShell, stages, templates } from '@/content/catalog'
-import { assemblePrompt } from '@/domain/assemble'
+import { assemblePrompt, visualBlendLead } from '@/domain/assemble'
 import { emptyChoices, openRequiredCount, withStageSkipped } from '@/domain/choices'
 import type { PromptChoices, PromptShell, Stage } from '@/domain/types'
 
@@ -176,6 +176,28 @@ When you are unsure, stop and ask. Use the official documentation named above.`)
     expect(text).toContain(glassFragment)
     expect(text).not.toContain(swissFragment)
     expect(text).not.toContain('{{')
+  })
+
+  it('blends visual styles in pick order and leaves a single style unmarked', () => {
+    const blended: PromptChoices = {
+      selections: {
+        'design.visual-style': ['swiss-design', 'glassmorphism'],
+      },
+      skippedStages: [],
+    }
+    const { text } = assemblePrompt(fixtureStages(), shell, blended, [])
+    expect(text).toContain(visualBlendLead)
+    expect(text.indexOf(swissFragment)).toBeLessThan(text.indexOf(glassFragment))
+    expect(text.indexOf(visualBlendLead)).toBeLessThan(text.indexOf(swissFragment))
+
+    const single: PromptChoices = {
+      selections: { 'design.visual-style': ['glassmorphism'] },
+      skippedStages: [],
+    }
+    const alone = assemblePrompt(fixtureStages(), shell, single, []).text
+    expect(alone).toContain(glassFragment)
+    expect(alone).not.toContain(visualBlendLead)
+    expect(alone).not.toContain(swissFragment)
   })
 
   it('omits a skipped stage and keeps the remaining stage numbers', () => {

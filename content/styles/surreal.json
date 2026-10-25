@@ -1,0 +1,19 @@
+{
+  "id": "surreal",
+  "name": "Surreal",
+  "description": "A familiar card in colors and a radius that should not meet.",
+  "bestFor": "Art-led pages that should feel slightly impossible.",
+  "tokens": {
+    "background": "linear-gradient(120deg, #0b3d4a 0%, #f2c14e 42%, #7a1f3d 78%, #141426 100%)",
+    "surface": "#f4efe4",
+    "text": "#1a1230",
+    "muted": "#7a3e6d",
+    "accent": "#0a5c59",
+    "border": "2px solid #7a1f3d",
+    "radius": "36px",
+    "shadow": "10px 14px 0 rgba(11, 61, 74, 0.45)",
+    "font": "Georgia, 'Times New Roman', serif",
+    "backdrop": "none"
+  },
+  "promptFragment": "Visual style: Surreal. Keep a normal card structure, then pair colors and shapes that do not belong together: deep teal, gold, burgundy, and an oversized radius with a displaced shadow. Type stays a plain serif so the mismatch is in the color and the form. Avoid a harmonious brand palette and a neat symmetric system. Keep text readable: meet WCAG 2.2 AA contrast (4.5:1) against the surface the text actually sits on. https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+}

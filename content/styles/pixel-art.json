@@ -1,0 +1,19 @@
+{
+  "id": "pixel-art",
+  "name": "Pixel Art",
+  "description": "Chunky pixels, a checker ground, and square corners.",
+  "bestFor": "Games and retro tools that should look drawn on a grid.",
+  "tokens": {
+    "background": "repeating-conic-gradient(#2a6b38 0% 25%, #3d8f4c 0% 50%) 0 0 / 10px 10px",
+    "surface": "#1b1b2f",
+    "text": "#f4f4f4",
+    "muted": "#f0d060",
+    "accent": "#d01212",
+    "border": "4px solid #111111",
+    "radius": "0px",
+    "shadow": "4px 4px 0 #111111",
+    "font": "'Courier New', Courier, monospace",
+    "backdrop": "none"
+  },
+  "promptFragment": "Visual style: Pixel Art. Use a visible pixel grid, square corners, a 4px black contour, a hard 4px shadow, and a monospace face. Colors are flat and limited, like a sprite palette. Avoid blur, gradients, subpixel softness, and large radii. Keep text readable: meet WCAG 2.2 AA contrast (4.5:1) against the surface the text actually sits on. https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+}

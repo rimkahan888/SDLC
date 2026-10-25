@@ -1,0 +1,19 @@
+{
+  "id": "maximalism",
+  "name": "Maximalism",
+  "description": "Clashing color, thick frames, and pattern stacked on pattern.",
+  "bestFor": "Posters and campaigns that should feel loud on purpose.",
+  "tokens": {
+    "background": "repeating-linear-gradient(135deg, #ff2e63 0 10px, #ffd23f 10px 20px, #08d9d6 20px 30px, #7b2ff7 30px 40px)",
+    "surface": "#1a0530",
+    "text": "#fff6c2",
+    "muted": "#ff8bd2",
+    "accent": "#c40048",
+    "border": "4px solid #ffd23f",
+    "radius": "18px",
+    "shadow": "6px 6px 0 #08d9d6",
+    "font": "Impact, 'Arial Black', sans-serif",
+    "backdrop": "none"
+  },
+  "promptFragment": "Visual style: Maximalism. Fill the page with colliding saturated colors, stripes or repeats, a heavy display face, thick borders, and hard offset shadows. Mix scales and let decoration crowd the edge. Avoid empty space, hairline rules, and a single quiet color. Keep text readable: meet WCAG 2.2 AA contrast (4.5:1) against the surface the text actually sits on. https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "clay-style",
+  "name": "Clay Style",
+  "description": "Soft inflated forms, pastel color, and a pressed-clay shadow.",
+  "bestFor": "Friendly tools and onboarding that should feel squishy and calm.",
+  "tokens": {
+    "background": "#e7d3f2",
+    "surface": "#f6c6d8",
+    "text": "#4a3058",
+    "muted": "#6d4d78",
+    "accent": "#3f2ec4",
+    "border": "2px solid rgba(255, 255, 255, 0.7)",
+    "radius": "28px",
+    "shadow": "4px 6px 0 rgba(120, 80, 140, 0.18), inset 2px 2px 4px rgba(255, 255, 255, 0.85), inset -3px -3px 6px rgba(140, 70, 110, 0.2)",
+    "font": "system-ui, sans-serif",
+    "backdrop": "none"
+  },
+  "promptFragment": "Visual style: Clay Style. Build claymorphism: puffy rounded forms, pastel surfaces, a soft outer shadow, and an inset highlight so controls look pressed from clay. Use a friendly sans and large radii. Avoid hard comic offsets, hairline rules, neon, and sharp corners. Keep text readable: meet WCAG 2.2 AA contrast (4.5:1) against the surface the text actually sits on. https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+}

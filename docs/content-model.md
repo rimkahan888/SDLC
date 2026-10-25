@@ -154,7 +154,7 @@ When you are unsure, stop and ask. Use the official documentation named above.
 1. Walk stages by `order`.
 2. Omit a stage that is skipped, or that has no selected option.
 3. Inside a stage, walk groups in file order. Omit a group with nothing selected.
-4. For a single group, append that option's `promptFragment`. For a multi group, append each selected option's fragment in option order, separated by a blank line.
+4. For a single group, append that option's `promptFragment`. For a multi group, append each selected option's fragment in option order, separated by a blank line. A visual group keeps the stored id order instead, so the first pick stays first. When that group has two or more selections, put this sentence before the fragments, then a blank line: `Blend these visual styles. The first style is the primary system: keep its layout, type, and spacing. Each later style is an accent: borrow its color, texture, or shape, and do not let an accent replace the primary layout.`
 5. Replace `{{fragments}}`, then `{{order}}` and `{{name}}`. `order` is the stage's own number, so Test stays `4` when Design is omitted.
 6. Join stage blocks with a blank line and replace `{{stages}}`.
 7. When any selected option has `starterFiles`, append a final `## Starter files` section. One line per template id, the `file` path from the template index.
@@ -429,7 +429,7 @@ The style picker is the visual group. It has no inline options:
 {
   "id": "visual-style",
   "label": "Visual style",
-  "help": "Pick one or more looks. Skip this when the change has no UI.",
+  "help": "Pick one or more looks. The first look is the primary system and later looks are accents. Skip this when the change has no UI.",
   "selection": "multi",
   "required": false,
   "presentation": "visual",
@@ -506,7 +506,7 @@ Extra keys are a validation error. The card structure is shared; a look that nee
   "bestFor": "Dashboards, media, and overlays where the background holds the color and the panel stays out of the way.",
   "tokens": {
     "background": "linear-gradient(145deg, #5b4bff 0%, #d946ef 48%, #22d3ee 100%)",
-    "surface": "rgba(255, 255, 255, 0.18)",
+    "surface": "rgba(12, 10, 32, 0.62)",
     "text": "#f7f8fb",
     "muted": "rgba(247, 248, 251, 0.78)",
     "accent": "#ffffff",
@@ -520,7 +520,7 @@ Extra keys are a validation error. The card structure is shared; a look that nee
 }
 ```
 
-The translucent surface sits on a gradient, so the mock's text contrast depends on what shows through. The fragment tells the agent to hit 4.5:1 on the real surface, including a scrim when the blur is not enough. App-chrome contrast is a separate rule in [ui-rules.md](ui-rules.md).
+The mock surface is a dark translucent scrim so the sample text stays readable while the gradient still shows through. The fragment tells the agent to hit 4.5:1 on the real surface, including a scrim when the blur is not enough. App-chrome contrast is a separate rule in [ui-rules.md](ui-rules.md).
 
 ## Project run
 

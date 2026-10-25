@@ -1,0 +1,19 @@
+{
+  "id": "editorial",
+  "name": "Editorial",
+  "description": "Paper, a serif, and a quiet rule, like a magazine page.",
+  "bestFor": "Essays, docs, and long reads where type should lead.",
+  "tokens": {
+    "background": "#f3efe4",
+    "surface": "#fbfaf6",
+    "text": "#161616",
+    "muted": "#5e584e",
+    "accent": "#8f1d2c",
+    "border": "1px solid #161616",
+    "radius": "0px",
+    "shadow": "none",
+    "font": "'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif",
+    "backdrop": "none"
+  },
+  "promptFragment": "Visual style: Editorial. Use warm paper, a serif for titles and body, black ink, a hairline rule, and one burgundy action color. Corners are square and shadows are absent. Align to a strict column and leave real margins. Avoid neon, clay shadows, and decorative patterns behind the text. Keep text readable: meet WCAG 2.2 AA contrast (4.5:1) against the surface the text actually sits on. https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+}
