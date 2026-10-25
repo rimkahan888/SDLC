@@ -1,0 +1,68 @@
+{
+  "id": "maintain",
+  "order": 6,
+  "name": "Maintain",
+  "oneLiner": "Send a new idea back to Plan as a change request.",
+  "goal": "Real use starts the lifecycle again. A new idea does not land inside the current change.",
+  "keyArtifact": "Change request",
+  "steps": [
+    {
+      "id": "notice",
+      "title": "Notice the new idea",
+      "text": "Name what real use showed, separate from the change that is already open."
+    },
+    {
+      "id": "write-request",
+      "title": "Write the change request",
+      "text": "Fill the change-request template. Leave the current change alone."
+    },
+    {
+      "id": "reenter",
+      "title": "Re-enter at Plan",
+      "text": "The next step is a new plan. Do not implement the idea here."
+    }
+  ],
+  "doneChecks": [
+    {
+      "id": "filed",
+      "text": "The new idea is a change request, separate from the current change."
+    },
+    {
+      "id": "back-to-plan",
+      "text": "The next step is Plan."
+    }
+  ],
+  "pitfalls": [
+    {
+      "id": "in-place",
+      "text": "Implementing the new idea inside the change that is already open."
+    }
+  ],
+  "quotes": [
+    {
+      "text": "Maintain returns to Plan.",
+      "source": "SDLC framework notes"
+    }
+  ],
+  "templates": ["maintain-change-request"],
+  "optionGroups": [
+    {
+      "id": "loop",
+      "label": "How to continue",
+      "help": "What happens to a new idea after the change ships?",
+      "selection": "single",
+      "required": true,
+      "presentation": "text",
+      "defaultOptionIds": ["change-request"],
+      "options": [
+        {
+          "id": "change-request",
+          "label": "Change request",
+          "detail": "Write it down and start again at Plan.",
+          "promptFragment": "Treat this as maintenance. Write a change request and re-enter at Plan. Do not implement the new idea in the current change.",
+          "starterFiles": ["maintain-change-request"]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "id": "test",
+  "order": 4,
+  "name": "Test",
+  "oneLiner": "Define done as checks before calling the work finished.",
+  "goal": "The engineer names the checks. The agent does not invent the finish line.",
+  "keyArtifact": "definition of done",
+  "steps": [
+    {
+      "id": "name-checks",
+      "title": "Name the checks",
+      "text": "Write what a person can observe when the work is done, including the widths and the states that matter."
+    }
+  ],
+  "doneChecks": [
+    {
+      "id": "checks-listed",
+      "text": "The change's definition of done lists observable checks before the build starts."
+    }
+  ],
+  "pitfalls": [
+    {
+      "id": "agent-victory",
+      "text": "Treating a green run as proof the result is right."
+    }
+  ],
+  "quotes": [],
+  "templates": ["definition-of-done"],
+  "optionGroups": [
+    {
+      "id": "checks",
+      "label": "Done-checks",
+      "help": "Pick every check this change has to meet.",
+      "selection": "multi",
+      "required": true,
+      "presentation": "text",
+      "options": [
+        {
+          "id": "layout-540",
+          "label": "540px layout",
+          "detail": "Side-panel width.",
+          "promptFragment": "Done check: at 540px wide there is no horizontal scrolling, and the detail region is a bottom sheet at half the viewport by default."
+        },
+        {
+          "id": "layout-wide",
+          "label": "Wide layout",
+          "detail": "Desktop width.",
+          "promptFragment": "Done check: at 1440px wide the detail region is the right half of the page by default, and the work stays usable beside it."
+        },
+        {
+          "id": "a11y",
+          "label": "Accessibility",
+          "detail": "Keyboard, focus, and contrast.",
+          "promptFragment": "Done check: every action works from the keyboard, focus is visible, and text on the application chrome meets WCAG 2.2 AA contrast (4.5:1). https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+        },
+        {
+          "id": "localization",
+          "label": "Localization",
+          "detail": "Strings still resolve after the change.",
+          "promptFragment": "Done check: user-visible strings still go through this project's localization path. Add no hard-coded copy on a second path."
+        },
+        {
+          "id": "copy-feedback",
+          "label": "Copy feedback",
+          "detail": "Tick and toast, red error on failure.",
+          "promptFragment": "Done check: copying plain text shows a tick and a toast, and a failed copy shows a red error that includes the browser's message."
+        },
+        {
+          "id": "keyboard",
+          "label": "Keyboard",
+          "detail": "Shortcuts match the ? overlay.",
+          "promptFragment": "Done check: the keyboard shortcuts work and the ? overlay lists the same set."
+        }
+      ]
+    },
+    {
+      "id": "test-types",
+      "label": "Test types",
+      "help": "Skip this when the change needs no new tests.",
+      "selection": "multi",
+      "required": false,
+      "presentation": "text",
+      "options": [
+        {
+          "id": "unit",
+          "label": "Unit tests",
+          "detail": "xUnit for C#, Vitest for Vue.",
+          "promptFragment": "Add or update unit tests. xUnit for C#: https://xunit.net/docs/getting-started/v3/getting-started. Vitest for Vue: https://vitest.dev/guide/."
+        },
+        {
+          "id": "e2e",
+          "label": "End-to-end tests",
+          "detail": "Playwright at 540px and 1440px.",
+          "promptFragment": "Add or update Playwright tests at 540px and 1440px, with screenshots. https://playwright.dev/docs/intro"
+        }
+      ]
+    }
+  ]
+}

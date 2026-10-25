@@ -1,0 +1,6 @@
+{
+  "id": "pull-request",
+  "name": "Pull request",
+  "stage": "deploy",
+  "file": "templates/pull_request_template.md"
+}

@@ -4,7 +4,7 @@ A cheatsheet and a prompt builder for an AI-native software lifecycle. The page 
 
 The repository is built with the same lifecycle it teaches. The plan and the design are in the docs below. This scaffold is the Vue app in `web/` and the ASP.NET Core minimal API in `api/`. Both target the stack in [AGENTS.md](AGENTS.md). The API uses `net10.0`. .NET 8 support ends 10 November 2026.
 
-Stage content, the prompt builder, and the style picker are later changes.
+Stage content and the prompt shell are in [`content/`](content/stages/plan.json). The prompt builder and the style picker are later changes.
 
 ## The six stages
 

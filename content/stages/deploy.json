@@ -1,0 +1,121 @@
+{
+  "id": "deploy",
+  "order": 5,
+  "name": "Deploy",
+  "oneLiner": "Open a pull request and let a person review the real result.",
+  "goal": "The pull request is the review boundary. A green run is not the merge.",
+  "keyArtifact": "Pull request",
+  "steps": [
+    {
+      "id": "open-pr",
+      "title": "Open the pull request",
+      "text": "Open one pull request for this change. Describe what changed."
+    },
+    {
+      "id": "list-checks",
+      "title": "List the done-checks",
+      "text": "Write each check and how it was verified, including screenshots when the UI changed."
+    },
+    {
+      "id": "hand-off",
+      "title": "Hand off for review",
+      "text": "Stop there. A person reviews the real build and decides whether to merge."
+    }
+  ],
+  "doneChecks": [
+    {
+      "id": "opened",
+      "text": "A pull request is open for this change."
+    },
+    {
+      "id": "listed",
+      "text": "The pull request lists the done-checks and how they were verified."
+    },
+    {
+      "id": "person",
+      "text": "A person reviews the result. The agent does not merge."
+    }
+  ],
+  "pitfalls": [
+    {
+      "id": "self-merge",
+      "text": "Merging before a person reviews the real build."
+    },
+    {
+      "id": "green-run",
+      "text": "Treating a green test run as the review."
+    }
+  ],
+  "quotes": [
+    {
+      "text": "Deploy uses the pull request as the review boundary.",
+      "source": "SDLC framework notes"
+    }
+  ],
+  "templates": ["pull-request"],
+  "optionGroups": [
+    {
+      "id": "boundary",
+      "label": "Review boundary",
+      "help": "Where does a person review this change?",
+      "selection": "single",
+      "required": true,
+      "presentation": "text",
+      "defaultOptionIds": ["pr"],
+      "options": [
+        {
+          "id": "pr",
+          "label": "Pull request",
+          "detail": "One pull request, with screenshots when the UI changed.",
+          "promptFragment": "The review boundary is one pull request. Open it for this change, list the done-checks and how they were verified, and include screenshots when the UI changed. Do not merge. A person reviews and merges.",
+          "starterFiles": ["pull-request"]
+        }
+      ]
+    },
+    {
+      "id": "ci",
+      "label": "Continuous integration",
+      "help": "Skip this when CI is already decided.",
+      "selection": "single",
+      "required": false,
+      "presentation": "text",
+      "options": [
+        {
+          "id": "actions",
+          "label": "GitHub Actions",
+          "detail": "Run the checks in Actions.",
+          "promptFragment": "Use GitHub Actions for the checks. https://docs.github.com/en/actions"
+        },
+        {
+          "id": "none",
+          "label": "No new workflow",
+          "detail": "The reviewer runs the checks locally.",
+          "promptFragment": "Do not add a CI workflow in this change. Name the local commands a reviewer runs."
+        }
+      ]
+    },
+    {
+      "id": "target",
+      "label": "Deploy target",
+      "help": "Where does this change ship?",
+      "selection": "single",
+      "required": true,
+      "presentation": "text",
+      "defaultOptionIds": ["pages"],
+      "options": [
+        {
+          "id": "pages",
+          "label": "GitHub Pages",
+          "detail": "Publish the static build.",
+          "promptFragment": "Deploy target: GitHub Pages, publishing the static build. https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages"
+        },
+        {
+          "id": "local",
+          "label": "Local only",
+          "detail": "Do not publish a site.",
+          "promptFragment": "Deploy target: local only. Do not publish a site in this change."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "id": "build",
+  "order": 3,
+  "name": "Build",
+  "oneLiner": "Write code only after the plan is accepted, and stay inside it.",
+  "goal": "Turn the accepted plan into the change, and leave every new idea for later.",
+  "keyArtifact": "Accepted plan",
+  "steps": [
+    {
+      "id": "wait",
+      "title": "Wait for acceptance",
+      "text": "Do not write application code while the plan is still open."
+    },
+    {
+      "id": "implement",
+      "title": "Implement the plan",
+      "text": "Build what the accepted plan names, and nothing past it."
+    },
+    {
+      "id": "stay-inside",
+      "title": "Stay inside the plan",
+      "text": "When a new idea appears, stop. It goes back to Plan as a change request."
+    }
+  ],
+  "doneChecks": [
+    {
+      "id": "accepted",
+      "text": "Application code waits until the plan is accepted."
+    },
+    {
+      "id": "in-scope",
+      "text": "The change stays inside the accepted plan."
+    }
+  ],
+  "pitfalls": [
+    {
+      "id": "early-code",
+      "text": "Writing application code while the plan is still a draft."
+    },
+    {
+      "id": "scope-creep",
+      "text": "Adding a new idea during the build instead of sending it back to Plan."
+    }
+  ],
+  "quotes": [
+    {
+      "text": "Build waits until the plan is accepted.",
+      "source": "SDLC framework notes"
+    }
+  ],
+  "templates": [],
+  "optionGroups": [
+    {
+      "id": "plan-first",
+      "label": "Plan first",
+      "help": "Does the plan still need a yes before any code?",
+      "selection": "single",
+      "required": true,
+      "presentation": "text",
+      "defaultOptionIds": ["accept-plan"],
+      "options": [
+        {
+          "id": "accept-plan",
+          "label": "Accept the plan first",
+          "detail": "Do not write code until the plan is accepted.",
+          "promptFragment": "Do not write application code until the plan is accepted. If the plan is still open, stop after the plan."
+        },
+        {
+          "id": "implement",
+          "label": "Implement in this session",
+          "detail": "The plan is already accepted.",
+          "promptFragment": "The plan is accepted. Implement it in this session. Keep the change inside the accepted plan."
+        }
+      ]
+    },
+    {
+      "id": "verify",
+      "label": "Who runs the checks",
+      "help": "Skip this when you have not decided who runs the checks.",
+      "selection": "single",
+      "required": false,
+      "presentation": "text",
+      "options": [
+        {
+          "id": "agent",
+          "label": "The agent verifies",
+          "detail": "Run the checks and report the result.",
+          "promptFragment": "Run the checks for this change and report the command and the result. A green run shows the build matched the plan. It does not decide that the result is right."
+        },
+        {
+          "id": "author",
+          "label": "The author verifies",
+          "detail": "Leave the commands for the author.",
+          "promptFragment": "Do not run the checks. Name the command the author should run, and leave the result for them."
+        }
+      ]
+    }
+  ]
+}
