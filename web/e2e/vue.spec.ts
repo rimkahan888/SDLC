@@ -23,4 +23,12 @@ test('placeholder renders without horizontal scrolling', async ({ page }) => {
     () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
   )
   expect(scrollsHorizontally).toBe(false)
+
+  await page.getByRole('link', { name: 'Prompt' }).click()
+  await expect(page.getByRole('heading', { level: 1, name: 'Prompt' })).toBeVisible()
+  await expect(page.getByRole('link', { name: 'Prompt' })).toHaveAttribute('aria-current', 'page')
+
+  await page.getByRole('link', { name: 'Cheatsheet' }).click()
+  await expect(page.getByRole('heading', { level: 1, name: 'SDLC' })).toBeVisible()
+  await expect(page.getByRole('link', { name: 'Cheatsheet' })).toHaveAttribute('aria-current', 'page')
 })

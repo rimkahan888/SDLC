@@ -4,7 +4,7 @@ A cheatsheet and a prompt builder for an AI-native software lifecycle. The page 
 
 The repository is built with the same lifecycle it teaches. The plan and the design are in the docs below. This scaffold is the Vue app in `web/` and the ASP.NET Core minimal API in `api/`. Both target the stack in [AGENTS.md](AGENTS.md). The API uses `net10.0`. .NET 8 support ends 10 November 2026.
 
-Stage content and the prompt shell are in [`content/`](content/stages/plan.json). The prompt builder and the style picker are later changes.
+Stage content and the prompt shell are in [`content/`](content/stages/plan.json). The prompt builder reads that content. The visual style cards are a later change.
 
 ## The six stages
 
@@ -20,7 +20,7 @@ Stage content and the prompt shell are in [`content/`](content/stages/plan.json)
 ## What the page will do
 
 - **Cheatsheet.** The six stages as cards, with steps, done-checks, pitfalls, and templates to copy.
-- **Prompt builder.** A guided pass through the same stages. Options live in `content/`. At Design, a style picker shows live HTML and CSS cards for 20 looks, and each chosen style adds a fragment to the prompt. Copy, download, reset, or share the result.
+- **Prompt builder.** A guided pass through the same stages, at `#/prompt`. Options live in `content/`. Copy, download, reset, or share the assembled prompt. The Design visual-style group is a placeholder until the style cards land.
 
 ## Docs
 
@@ -46,7 +46,7 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:5173/. The router uses [hash history](https://router.vuejs.org/guide/essentials/history-mode.html), so the placeholder is at http://localhost:5173/#/. In dev, Vite proxies `/api` to http://localhost:5080.
+Open http://localhost:5173/. The router uses [hash history](https://router.vuejs.org/guide/essentials/history-mode.html), so the cheatsheet is at http://localhost:5173/#/ and the prompt builder is at http://localhost:5173/#/prompt. In dev, Vite proxies `/api` to http://localhost:5080.
 
 ### API
 
@@ -69,7 +69,7 @@ npx playwright install
 npx playwright test
 ```
 
-`npm test` is Vitest. Playwright checks the placeholder at 540px and at 1440px.
+`npm test` is Vitest. Playwright checks the cheatsheet and the prompt builder at 540px and at 1440px.
 
 ### Production build
 
