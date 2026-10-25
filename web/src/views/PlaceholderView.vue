@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import { stages } from '@/stages'
+import { contentState, loadContent } from '@/content/catalog'
+
+void loadContent().catch(() => {
+  // The page alert and the toast already name the failure.
+})
 </script>
 
 <template>
@@ -8,8 +12,9 @@ import { stages } from '@/stages'
     <section class="card">
       <p>Six stages, read from the content files.</p>
       <p>Open Prompt to walk the six stages and copy a prompt.</p>
+      <p v-if="!contentState.ready && !contentState.error" class="stage-line">Loading content.</p>
       <ol class="stages">
-        <li v-for="stage in stages" :key="stage.id">
+        <li v-for="stage in contentState.stages" :key="stage.id">
           <span class="stage-name">{{ stage.name }}</span>
           <span class="stage-line">{{ stage.oneLiner }}</span>
         </li>

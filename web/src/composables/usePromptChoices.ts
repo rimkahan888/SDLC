@@ -1,6 +1,6 @@
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { promptShell, stages, templates } from '@/content/catalog'
+import { contentState } from '@/content/catalog'
 import { assemblePrompt } from '@/domain/assemble'
 import {
   PROMPT_STORAGE_KEY,
@@ -104,9 +104,15 @@ export function usePromptChoices() {
     },
   )
 
-  const assembled = computed<AssembledPrompt>(() =>
-    assemblePrompt(stages, promptShell, choices.value, templates),
-  )
+  const assembled = computed<AssembledPrompt>(() => {
+    if (!contentState.ready) return { text: '', starterFiles: [] }
+    return assemblePrompt(
+      contentState.stages,
+      contentState.promptShell,
+      choices.value,
+      contentState.templates,
+    )
+  })
 
   function replaceChoices(next: PromptChoices): void {
     choices.value = next

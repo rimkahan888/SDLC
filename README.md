@@ -46,7 +46,7 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:5173/. The router uses [hash history](https://router.vuejs.org/guide/essentials/history-mode.html), so the cheatsheet is at http://localhost:5173/#/ and the prompt builder is at http://localhost:5173/#/prompt. In dev, Vite proxies `/api` to http://localhost:5080.
+Open http://localhost:5173/. The router uses [hash history](https://router.vuejs.org/guide/essentials/history-mode.html), so the cheatsheet is at http://localhost:5173/#/ and the prompt builder is at http://localhost:5173/#/prompt. In dev, Vite proxies `/api` to http://localhost:5080 ([server proxy](https://vite.dev/config/server-options.html#server-proxy)). Start the API first. When it is down, the page shows a red error.
 
 ### API
 
@@ -54,7 +54,15 @@ Open http://localhost:5173/. The router uses [hash history](https://router.vuejs
 dotnet run --project api
 ```
 
-The process listens on http://localhost:5080. [Health checks](https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-10.0) answer at http://localhost:5080/health.
+The process listens on http://localhost:5080. [Health checks](https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-10.0) answer at http://localhost:5080/health. Startup reads `content/` and `templates/`. Invalid content is logged and the process exits non-zero.
+
+The same process writes the static JSON for GitHub Pages. It does not listen:
+
+```bash
+dotnet run --project api -- export web/public/data
+```
+
+Run that from the repository root before `npm test` or `npm run build`. Dev does not read those files.
 
 ### Tests
 
@@ -73,9 +81,6 @@ npx playwright test
 
 ### Production build
 
-```bash
-cd web
-npm run build
-```
+Export the JSON first (`dotnet run --project api -- export web/public/data` from the repository root), then:
 
-That type-checks, then runs `vite build --base=/SDLC/` so a project site is served from `/SDLC/` ([Vite `base`](https://vite.dev/guide/build.html)). Preview the result with `npm run preview`, which passes the same `--base=/SDLC/`, at http://localhost:4173/SDLC/.
+That type-checks, then runs `vite build --base=/SDLC/` so a project site is served from `/SDLC/` ([Vite `base`](https://vite.dev/guide/build.html)). The build copies `web/public/data` into `dist/` ([public directory](https://vite.dev/guide/assets.html#the-public-directory)). Preview the result with `npm run preview`, which passes the same `--base=/SDLC/`, at http://localhost:4173/SDLC/. The preview reads the exported JSON. It does not need the API.

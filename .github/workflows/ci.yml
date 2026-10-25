@@ -24,8 +24,17 @@ jobs:
           cache: npm
           cache-dependency-path: web/package-lock.json
 
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
       - name: Install dependencies
         run: npm ci
+
+      - name: Export content
+        working-directory: ${{ github.workspace }}
+        run: dotnet run --project api -- export web/public/data
 
       - name: Build
         run: npm run build

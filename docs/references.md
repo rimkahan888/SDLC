@@ -24,6 +24,7 @@ Official documentation for every technology this project uses. One line each on 
 | Minimal APIs | [Overview (.NET 10)](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/overview?view=aspnetcore-10.0) | The local API is a minimal API on `net10.0`: routes declared on `WebApplication`, no controllers. |
 | CORS | [Enable CORS (.NET 10)](https://learn.microsoft.com/en-us/aspnet/core/security/cors?view=aspnetcore-10.0) | Dev-only policy so a browser pointed straight at the API still works. |
 | Problem details | [Error handling (.NET 10)](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling?view=aspnetcore-10.0) | Unknown ids return a problem-details body. |
+| Health checks | [Health checks (.NET 10)](https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-10.0) | `GET /health` reports that the process is up. |
 | JSON names | [Customize properties](https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/customize-properties) | Responses use camelCase. Set `JsonNamingPolicy.CamelCase` explicitly. |
 | .NET support | [Support policy](https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core) | .NET 8 support ends 10 November 2026, which is why the API targets .NET 10. .NET 10 LTS runs until 14 November 2028. |
 | Release dates | [Releases and support](https://learn.microsoft.com/en-us/dotnet/core/releases-and-support) | Same dates, on the docs site. The decision is recorded in [intent.md](../intent.md) and [architecture.md](architecture.md). |

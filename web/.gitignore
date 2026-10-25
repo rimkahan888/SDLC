@@ -38,5 +38,8 @@ __screenshots__/
 # Vite
 *.timestamp-*-*.mjs
 
+# JSON export written by `dotnet run --project api -- export web/public/data`
+public/data/
+
 test-results/
 playwright-report/

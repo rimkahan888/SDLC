@@ -12,8 +12,11 @@ The local read API. Contract for the minimal API and for the JSON files the stat
 | `GET /api/styles` | Style array in catalog order. | `data/styles.json` |
 | `GET /api/styles/{id}` | One style, or 404. | `data/styles/{id}.json` |
 | `GET /api/prompt` | `{ "shell", "stage" }` from `content/prompt/`. | `data/prompt.json` |
+| `GET /health` | `200` and the body `Healthy`. | Not exported. |
 
 `{id}` matches `^[a-z][a-z0-9-]*$`. Anything else is 404.
+
+`GET /health` is the process check from [health checks](https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-10.0). It is not content, and the export does not write it.
 
 There is no write route, no auth, and no paging. Six stages, six templates, and twenty styles are small enough to return whole.
 
@@ -23,7 +26,7 @@ There is no write route, no auth, and no paging. Six stages, six templates, and 
 - camelCase property names. Set [`JsonNamingPolicy.CamelCase`](https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/customize-properties) on the serializer. Do not hand-camelCase the C# models; the models use PascalCase.
 - A stage on the wire always has `optionGroups[].options` filled in. `optionsFrom` is a storage detail and is not returned.
 - A visual option on the wire includes `preview.tokens` and `preview.bestFor`, copied from the style file at load time.
-- Template `markdown` is the file contents. The response does not include the storage path.
+- Template `markdown` is the file contents. The object also includes `file`, the repo-relative path from the template index. The assembled prompt prints that path in the starter-files section ([content model](content-model.md)). The response does not include an absolute disk path.
 
 ## Errors
 

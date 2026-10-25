@@ -1,7 +1,8 @@
 import { readFileSync } from 'node:fs'
 import path from 'node:path'
-import { describe, expect, it } from 'vitest'
-import { promptShell, sortStyleIds, stages, styleOrder, styles, templates } from '@/content/catalog'
+import { beforeAll, describe, expect, it } from 'vitest'
+import { contentState, loadContent } from '@/content/catalog'
+import { sortStyleIds } from '@/domain/styleOrder'
 import { assemblePrompt, visualBlendLead } from '@/domain/assemble'
 import { emptyChoices, withSelection } from '@/domain/choices'
 import { actionTextColor, mockCssVariables, styleTokenKeys } from '@/domain/styleTokens'
@@ -32,10 +33,14 @@ const names: Record<string, string> = {
 const glassFragment =
   'Visual style: Glassmorphism. Use translucent panels over a saturated background, with backdrop-filter blur, a hairline light border, and a soft shadow. Keep text readable: meet WCAG 2.2 AA contrast (4.5:1) against the surface the text actually sits on. https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html'
 
+beforeAll(async () => {
+  await loadContent()
+})
+
 describe('style catalog', () => {
   it('loads the twenty styles in catalog order', () => {
+    const styles = contentState.styles
     expect(styles.map((style) => style.id)).toEqual(Object.keys(names))
-    expect(styleOrder).toEqual(Object.keys(names))
     for (const style of styles) {
       expect(style.name).toBe(names[style.id])
       expect(style.description.trim().length).toBeGreaterThan(0)
@@ -53,18 +58,22 @@ describe('style catalog', () => {
   })
 
   it('sorts a style that is not in the catalog after the required ids', () => {
-    const ids = sortStyleIds(['zeta', 'aurora', 'minimalism'], styleOrder)
+    const ids = sortStyleIds(
+      ['zeta', 'aurora', 'minimalism'],
+      contentState.styles.map((style) => style.id),
+    )
     expect(ids[0]).toBe('minimalism')
     expect(ids[ids.length - 1]).toBe('zeta')
     expect(ids.indexOf('aurora')).toBeLessThan(ids.indexOf('zeta'))
   })
 
   it('expands the design visual group from the style files', () => {
-    const design = stages.find((stage) => stage.id === 'design')
+    const styles = contentState.styles
+    const design = contentState.stages.find((stage) => stage.id === 'design')
     const group = design?.optionGroups.find((item) => item.id === 'visual-style')
     expect(group?.presentation).toBe('visual')
     expect(group?.selection).toBe('multi')
-    expect(group?.optionsFrom).toBe('styles')
+    expect(group?.optionsFrom).toBeUndefined()
     expect(group?.options.map((option) => option.id)).toEqual(styles.map((style) => style.id))
     const first = group?.options[0]
     expect(first?.detail).toBe(styles[0]?.description)
@@ -74,7 +83,7 @@ describe('style catalog', () => {
   })
 
   it('maps tokens onto the shared mock variables', () => {
-    const tokens = styles[0]?.tokens
+    const tokens = contentState.styles[0]?.tokens
     expect(tokens).toBeTruthy()
     if (!tokens) return
     const css = mockCssVariables(tokens)
@@ -98,7 +107,7 @@ describe('style catalog', () => {
   })
 
   it('adds the picked styles to the design section, primary first', () => {
-    const design = stages.find((stage) => stage.id === 'design')
+    const design = contentState.stages.find((stage) => stage.id === 'design')
     const group = design?.optionGroups.find((item) => item.id === 'visual-style')
     expect(design && group).toBeTruthy()
     if (!design || !group) return
@@ -112,10 +121,10 @@ describe('style catalog', () => {
     expect(choices.selections['design.visual-style']).toEqual(['editorial', 'minimalism'])
 
     const { text } = assemblePrompt(
-      stages,
-      promptShell,
+      contentState.stages,
+      contentState.promptShell,
       { selections: choices.selections, skippedStages: ['plan', 'build', 'test', 'deploy', 'maintain'] },
-      templates,
+      contentState.templates,
     )
     expect(text).toContain('## 2. Design')
     expect(text.indexOf(visualBlendLead)).toBeLessThan(text.indexOf(editorial.promptFragment))
